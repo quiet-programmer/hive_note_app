@@ -1,4 +1,4 @@
-package com.viewus.note_app
+package com.viewus.v_notes
 
 import io.flutter.embedding.android.FlutterActivity
 
