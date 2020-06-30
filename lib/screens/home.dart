@@ -29,7 +29,6 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pop();
           Navigator.of(context).push(MaterialPageRoute(builder: (_) {
             return NoteEditScreen();
           }));
@@ -44,9 +43,7 @@ class _HomeState extends State<Home> {
           ? Center(
               child: Text(
                 "No Notes Yet...",
-                style: TextStyle(
-                  fontSize: 18.0
-                ),
+                style: TextStyle(fontSize: 18.0),
               ),
             )
           : SingleChildScrollView(
