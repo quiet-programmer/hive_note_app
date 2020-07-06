@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/screens/edit_screen.dart';
+import 'package:note_app/utils/slide_transition.dart';
 
 class NoteScreen extends StatefulWidget {
   final NoteModel note;
@@ -40,8 +41,11 @@ class _NoteScreenState extends State<NoteScreen> {
             icon: Icon(Icons.mode_edit),
             onPressed: () {
               Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                return EditScreen(notes: widget.note, noteKey: widget.notekey,);
+              Navigator.of(context).push(MySlide(builder: (_) {
+                return EditScreen(
+                  notes: widget.note,
+                  noteKey: widget.notekey,
+                );
               }));
             },
           )
@@ -52,9 +56,7 @@ class _NoteScreenState extends State<NoteScreen> {
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              showText()
-            ],
+            children: <Widget>[showText()],
           ),
         ),
       ),

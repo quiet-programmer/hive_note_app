@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/screens/note_screen.dart';
+import 'package:note_app/utils/slide_transition.dart';
 import 'package:toast/toast.dart';
 
 import '../const_value.dart';
@@ -10,7 +11,8 @@ class EditScreen extends StatefulWidget {
   final NoteModel notes;
   final int noteKey;
 
-  EditScreen({key, @required this.notes, @required this.noteKey}) : super(key: key);
+  EditScreen({key, @required this.notes, @required this.noteKey})
+      : super(key: key);
   @override
   _EditScreenState createState() => _EditScreenState();
 }
@@ -21,10 +23,7 @@ class _EditScreenState extends State<EditScreen> {
   var _noteText = TextEditingController();
 
   var coText;
-  var _initValue = {
-    'notes' : '',
-    'conText' : ''
-  };
+  var _initValue = {'notes': '', 'conText': ''};
 
   var _isInit = true;
 
@@ -32,10 +31,10 @@ class _EditScreenState extends State<EditScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // _noteText = widget.notes.notes;
-    if(_isInit) {
+    if (_isInit) {
       _initValue = {
-        'notes' : widget.notes.notes.toString(),
-        'conText' : widget.notes.notes.toString()
+        'notes': widget.notes.notes.toString(),
+        'conText': widget.notes.notes.toString()
       };
     }
     _isInit = false;
@@ -53,7 +52,7 @@ class _EditScreenState extends State<EditScreen> {
     super.dispose();
     _noteText.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -73,7 +72,7 @@ class _EditScreenState extends State<EditScreen> {
               Toast.show("Note Saved", context,
                   duration: 3, gravity: Toast.BOTTOM);
               Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(builder: (_){
+              Navigator.of(context).push(MySlide(builder: (_) {
                 return NoteScreen(note: noteM, notekey: key);
               }));
             },

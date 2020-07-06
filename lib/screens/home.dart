@@ -6,6 +6,7 @@ import 'package:note_app/const_value.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/screens/note_edit_screen.dart';
 import 'package:note_app/screens/note_screen.dart';
+import 'package:note_app/utils/slide_transition.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -29,7 +30,8 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          Navigator.of(context).pop();
+          Navigator.of(context).push(MySlide(builder: (_) {
             return NoteEditScreen();
           }));
         },
@@ -65,8 +67,7 @@ class _HomeState extends State<Home> {
                         final NoteModel note = notes.get(key);
                         return GestureDetector(
                           onTap: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (_) {
+                            Navigator.of(context).push(MySlide(builder: (_) {
                               return NoteScreen(
                                 note: note,
                                 notekey: key,
