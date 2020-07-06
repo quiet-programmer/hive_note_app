@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:note_app/screens/home.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -13,11 +18,11 @@ class App extends StatelessWidget {
           textTheme: TextTheme(
             headline6: TextStyle(
               fontSize: 25.0,
-            )
-          )
-        )
+            ),
+          ),
+        ),
       ),
-      title: "Note App",
+      title: "VNotes",
       home: Home(),
     );
   }
