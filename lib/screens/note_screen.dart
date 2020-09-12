@@ -25,7 +25,10 @@ class _NoteScreenState extends State<NoteScreen> {
     setState(() {
       test = SelectableText(
         "${widget.note.notes}",
-        style: TextStyle(fontSize: 18.0),
+        style: TextStyle(
+          fontSize: 18.0,
+          color: Colors.black54,
+        ),
       );
     });
     return test;
@@ -34,8 +37,20 @@ class _NoteScreenState extends State<NoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(224, 211, 175, 1),
       appBar: AppBar(
-        title: Text("Read Note"),
+        title: Text(
+          "Read Note",
+          style: TextStyle(
+            color: Colors.black54,
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.black54,
+        ),
+        shadowColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.mode_edit),
@@ -53,7 +68,7 @@ class _NoteScreenState extends State<NoteScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[showText()],
