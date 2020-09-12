@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Notes"),
+        centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -62,6 +63,7 @@ class _HomeState extends State<Home> {
                       crossAxisCount: 4,
                       mainAxisSpacing: 8.0,
                       crossAxisSpacing: 8.0,
+                      addRepaintBoundaries: true,
                       itemBuilder: (_, index) {
                         final key = keys[index];
                         final NoteModel note = notes.get(key);
@@ -87,6 +89,7 @@ class _HomeState extends State<Home> {
                                       onPressed: () {
                                         storeData.delete(key);
                                         Navigator.of(context).pop();
+                                        setState(() {});
                                       },
                                       child: Text("Yes"),
                                     ),
