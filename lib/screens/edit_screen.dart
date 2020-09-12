@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/screens/note_screen.dart';
 import 'package:note_app/utils/slide_transition.dart';
+import 'package:text_style_editor/text_style_editor.dart';
 import 'package:toast/toast.dart';
 
 import '../const_value.dart';
@@ -19,6 +20,9 @@ class EditScreen extends StatefulWidget {
 
 class _EditScreenState extends State<EditScreen> {
   Box<NoteModel> storeData;
+
+  TextStyle myTextStyle;
+  TextAlign myTextAlign;
 
   var _noteText = TextEditingController();
 
@@ -44,7 +48,10 @@ class _EditScreenState extends State<EditScreen> {
   void initState() {
     super.initState();
     storeData = Hive.box<NoteModel>(noteBox);
-    // coText = TextEditingController();
+    myTextStyle = TextStyle(
+      fontSize: 18.5,
+    );
+    myTextAlign = TextAlign.left;
   }
 
   @override
@@ -59,6 +66,7 @@ class _EditScreenState extends State<EditScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Edit note"),
+        centerTitle: true,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.done),
@@ -67,6 +75,7 @@ class _EditScreenState extends State<EditScreen> {
               String note = _initValue['notes'];
               NoteModel noteM = NoteModel(
                 notes: note,
+                // myStyle: myTextStyle,
               );
               storeData.put(key, noteM);
               Toast.show("Note Saved", context,
@@ -79,28 +88,55 @@ class _EditScreenState extends State<EditScreen> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              TextFormField(
-                initialValue: _initValue['notes'],
-                autofocus: true,
-                onChanged: (value) {
-                  _initValue['notes'] = value;
-                },
-                decoration: InputDecoration(
-                  border: InputBorder.none,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            SafeArea(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: TextStyleEditor(
+                    backgroundColor: Colors.black12,
+                    primaryColor: Colors.grey,
+                    height: 220,
+                    textStyle: myTextStyle,
+                    onTextStyleChanged: (val) {
+                      setState(() {
+                        myTextStyle = val;
+                      });
+                    },
+                    onTextAlignChanged: (val) {
+                      setState(() {
+                        myTextAlign = val;
+                      });
+                    },
+                  ),
                 ),
-                style: TextStyle(
-                  fontSize: 18.5,
-                ),
-                maxLines: height.toInt(),
               ),
-            ],
-          ),
+            ),
+            Expanded(
+              child: ListView(
+                children: [
+                  TextFormField(
+                    initialValue: _initValue['notes'],
+                    autofocus: true,
+                    onChanged: (value) {
+                      _initValue['notes'] = value;
+                    },
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                    ),
+                    style: myTextStyle,
+                    textAlign: myTextAlign,
+                    maxLines: height.toInt(),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
