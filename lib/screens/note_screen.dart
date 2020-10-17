@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/screens/edit_screen.dart';
 import 'package:note_app/utils/slide_transition.dart';
@@ -37,16 +38,10 @@ class _NoteScreenState extends State<NoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(224, 211, 175, 1),
+      backgroundColor: backColor,
       appBar: AppBar(
         title: Text(
           "Read Note",
-          style: TextStyle(
-            color: Colors.black54,
-          ),
-        ),
-        iconTheme: IconThemeData(
-          color: Colors.black54,
         ),
         shadowColor: Colors.transparent,
         backgroundColor: Colors.transparent,
