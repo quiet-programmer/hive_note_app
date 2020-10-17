@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:note_app/const_value.dart';
+import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/screens/home.dart';
 import 'package:text_style_editor/text_style_editor.dart';
@@ -27,6 +27,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
     storeData = Hive.box<NoteModel>(noteBox);
     myTextStyle = TextStyle(
       fontSize: 18.5,
+      color: Colors.black54,
     );
     myTextAlign = TextAlign.left;
   }
@@ -48,12 +49,12 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
         }));
       },
       child: Scaffold(
+        backgroundColor: backColor,
         appBar: AppBar(
           title: Text("Create note"),
           centerTitle: true,
           actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.done),
+            FlatButton.icon(
               onPressed: () {
                 if (_noteText.text.isEmpty) {
                   return;
@@ -63,7 +64,6 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                   print("This is the Style....................$style");
                   NoteModel noteM = NoteModel(
                     notes: note,
-                    // myStyle: style.toString(),
                   );
                   storeData.add(noteM);
                   Toast.show("Note Saved", context,
@@ -74,7 +74,17 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                   }));
                 }
               },
-            )
+              icon: Icon(
+                Icons.done,
+                color: Colors.black54,
+              ),
+              label: Text(
+                "Save",
+                style: TextStyle(
+                  color: Colors.black54,
+                ),
+              ),
+            ),
           ],
         ),
         body: Padding(
@@ -88,8 +98,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: TextStyleEditor(
-                      backgroundColor: Colors.black12,
-                      primaryColor: Colors.grey,
+                      backgroundColor: Colors.white38,
                       height: 220,
                       textStyle: myTextStyle,
                       onTextStyleChanged: (val) {

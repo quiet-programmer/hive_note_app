@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:note_app/const_value.dart';
+import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/screens/note_edit_screen.dart';
 import 'package:note_app/screens/note_screen.dart';
@@ -24,7 +24,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // final NoteModel changeTheme = Hive.box(noteBox).get(appHiveKey);
     return Scaffold(
+      backgroundColor: backColor,
       appBar: AppBar(
         title: Text("Notes"),
         centerTitle: true,
@@ -36,7 +38,7 @@ class _HomeState extends State<Home> {
             return NoteEditScreen();
           }));
         },
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.white60,
         child: Icon(
           Icons.add,
           color: Colors.white,
@@ -46,7 +48,10 @@ class _HomeState extends State<Home> {
           ? Center(
               child: Text(
                 "No Notes Yet...",
-                style: TextStyle(fontSize: 18.0),
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.black54,
+                ),
               ),
             )
           : SingleChildScrollView(
@@ -81,6 +86,13 @@ class _HomeState extends State<Home> {
                               context: context,
                               builder: (_) {
                                 return AlertDialog(
+                                  backgroundColor: backColor,
+                                  titleTextStyle: TextStyle(
+                                    color: Colors.black54,
+                                  ),
+                                  contentTextStyle: TextStyle(
+                                    color: Colors.black54,
+                                  ),
                                   title: Text("Warning"),
                                   content: Text(
                                       "Are you sure you want to delete this note?"),
@@ -91,13 +103,23 @@ class _HomeState extends State<Home> {
                                         Navigator.of(context).pop();
                                         setState(() {});
                                       },
-                                      child: Text("Yes"),
+                                      child: Text(
+                                        "Yes",
+                                        style: TextStyle(
+                                          color: Colors.black54,
+                                        ),
+                                      ),
                                     ),
                                     FlatButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text("No"),
+                                      child: Text(
+                                        "No",
+                                        style: TextStyle(
+                                          color: Colors.black54,
+                                        ),
+                                      ),
                                     )
                                   ],
                                 );
@@ -106,7 +128,7 @@ class _HomeState extends State<Home> {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                                color: Color.fromRGBO(224, 211, 175, 1),
+                                color: Colors.white38,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10.0))),
                             child: Padding(
@@ -124,7 +146,7 @@ class _HomeState extends State<Home> {
                       },
                       itemCount: keys.length,
                       staggeredTileBuilder: (int index) =>
-                          new StaggeredTile.count(2, index.isEven ? 2 : 1),
+                          StaggeredTile.count(2, index.isEven ? 2 : 1),
                     );
                   },
                 ),

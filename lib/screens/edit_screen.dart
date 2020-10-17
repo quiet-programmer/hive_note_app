@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/screens/note_screen.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:text_style_editor/text_style_editor.dart';
 import 'package:toast/toast.dart';
-
-import '../const_value.dart';
 
 class EditScreen extends StatefulWidget {
   final NoteModel notes;
@@ -50,6 +49,7 @@ class _EditScreenState extends State<EditScreen> {
     storeData = Hive.box<NoteModel>(noteBox);
     myTextStyle = TextStyle(
       fontSize: 18.5,
+      color: Colors.black54,
     );
     myTextAlign = TextAlign.left;
   }
@@ -64,28 +64,42 @@ class _EditScreenState extends State<EditScreen> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: backColor,
       appBar: AppBar(
         title: Text("Edit note"),
         centerTitle: true,
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.done),
+          FlatButton.icon(
             onPressed: () {
-              var key = widget.noteKey;
-              String note = _initValue['notes'];
-              NoteModel noteM = NoteModel(
-                notes: note,
-                // myStyle: myTextStyle,
-              );
-              storeData.put(key, noteM);
-              Toast.show("Note Saved", context,
-                  duration: 3, gravity: Toast.BOTTOM);
-              Navigator.of(context).pop();
-              Navigator.of(context).push(MySlide(builder: (_) {
-                return NoteScreen(note: noteM, notekey: key);
-              }));
+              if (_initValue['notes'].isEmpty) {
+                return;
+              } else {
+                var key = widget.noteKey;
+                String note = _initValue['notes'];
+                NoteModel noteM = NoteModel(
+                  notes: note,
+                  // myStyle: myTextStyle,
+                );
+                storeData.put(key, noteM);
+                Toast.show("Note Saved", context,
+                    duration: 3, gravity: Toast.BOTTOM);
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MySlide(builder: (_) {
+                  return NoteScreen(note: noteM, notekey: key);
+                }));
+              }
             },
-          )
+            icon: Icon(
+              Icons.done,
+              color: Colors.black54,
+            ),
+            label: Text(
+              "Update",
+              style: TextStyle(
+                color: Colors.black54,
+              ),
+            ),
+          ),
         ],
       ),
       body: Padding(
@@ -99,8 +113,7 @@ class _EditScreenState extends State<EditScreen> {
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: TextStyleEditor(
-                    backgroundColor: Colors.black12,
-                    primaryColor: Colors.grey,
+                    backgroundColor: Colors.white38,
                     height: 220,
                     textStyle: myTextStyle,
                     onTextStyleChanged: (val) {
