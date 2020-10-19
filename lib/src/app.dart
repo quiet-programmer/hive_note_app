@@ -10,10 +10,6 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     // final NoteModel changeTheme = Hive.box(noteBox).get(appHiveKey);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
