@@ -1,16 +1,10 @@
-# note_app
+## Vnote
 
-A new Flutter project.
+<p>This is an old project I was working on when learning to use Hive, will start working on it full time and will be adding new features as soon as possible.</p>
+
+<p> Any contribution will be accepted if it meets what is needed, Thanks. </p>
 
 ## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
