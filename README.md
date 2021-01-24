@@ -1,4 +1,4 @@
-## Vnote
+## VNotes
 
 <p>This is an old project I was working on when learning to use Hive, will start working on it full time and will be adding new features as soon as possible.</p>
 
