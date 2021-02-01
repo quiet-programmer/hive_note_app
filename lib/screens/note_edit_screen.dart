@@ -43,6 +43,11 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
     var height = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: () {
+        if (_noteText.text != "" || _noteText.text != null) {
+          print('save the note');
+        } else {
+          print('text was not save');
+        }
         Navigator.of(context).pop();
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return Home();
