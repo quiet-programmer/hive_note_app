@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:note_app/const_values.dart';
 import 'package:note_app/screens/home.dart';
 
 class App extends StatefulWidget {
@@ -16,6 +17,7 @@ class _AppState extends State<App> {
       theme: ThemeData(
         brightness: Brightness.dark,
         appBarTheme: AppBarTheme(
+          centerTitle: true,
           elevation: 0.0,
           shadowColor: Colors.transparent,
           color: Colors.transparent,
@@ -27,6 +29,16 @@ class _AppState extends State<App> {
           ),
           iconTheme: IconThemeData(
             color: Colors.black54,
+          ),
+        ),
+        dialogBackgroundColor: backColor,
+        dialogTheme: DialogTheme(
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+          contentTextStyle: TextStyle(
+            color: Colors.black,
           ),
         ),
       ),
