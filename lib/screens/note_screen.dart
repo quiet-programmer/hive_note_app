@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
-import 'package:note_app/screens/edit_screen.dart';
+import 'package:note_app/screens/edit_note_screen.dart';
 import 'package:note_app/utils/slide_transition.dart';
 
 class NoteScreen extends StatefulWidget {
@@ -52,7 +52,7 @@ class _NoteScreenState extends State<NoteScreen> {
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(MySlide(builder: (_) {
-                return EditScreen(
+                return EditNoteScreen(
                   notes: widget.note,
                   noteKey: widget.notekey,
                 );

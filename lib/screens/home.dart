@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
-import 'package:note_app/screens/note_edit_screen.dart';
+import 'package:note_app/screens/create_note_screen.dart';
 import 'package:note_app/screens/note_screen.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:upgrader/upgrader.dart';
@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
         onPressed: () {
           Navigator.of(context).pop();
           Navigator.of(context).push(MySlide(builder: (_) {
-            return NoteEditScreen();
+            return CreateNoteScreen();
           }));
         },
         backgroundColor: Colors.white60,
