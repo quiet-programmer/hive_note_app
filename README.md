@@ -4,6 +4,17 @@
 
 <p> Any contribution will be accepted if it meets what is needed, Thanks. </p>
 
+<center>
+<table>
+  <tbody>
+    <tr>
+      <td><img src='https://github.com/quiet-programmer/hive_note_app/blob/master/ss/145535058_221013679682765_5476232847126577393_n.png' width='300' height='610'></td>
+      <td><img src='https://github.com/quiet-programmer/hive_note_app/blob/master/ss/145944556_3545455032189582_7968282205009447548_n.png' width='300' height='610'></td>
+     </tr>
+  </tbody>
+</table>
+</center>
+
 ## Getting Started
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
