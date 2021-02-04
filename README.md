@@ -4,6 +4,12 @@
 
 <p> Any contribution will be accepted if it meets what is needed, Thanks. </p>
 
+## Plugin's Used
+1. <p><b> Hive (To locally store Data) </b></p> 
+2. <p><b> Toast (To display useful message) </b></p>
+3. <p><b> Path Provider </b></p>
+4. <p><b> upgrader (To alert users when app has a new update) </b></p>
+
 <center>
 <table>
   <tbody>
