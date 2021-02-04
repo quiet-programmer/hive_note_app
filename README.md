@@ -2,6 +2,8 @@
 
 <p>This is an old project I was working on when learning to use Hive, will start working on it full time and will be adding new features as soon as possible.</p>
 
+<p> You can download the app from <a href='https://play.google.com/store/apps/details?id=com.viewus.v_notes'>Play Store Here</a></p>
+
 <p> Any contribution will be accepted if it meets what is needed, Thanks. </p>
 
 ## Plugin's Used
