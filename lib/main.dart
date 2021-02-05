@@ -16,7 +16,7 @@ void main() async {
     ..registerAdapter(NoteModelAdapter());
   await Hive.openBox<NoteModel>(noteBox);
 
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
