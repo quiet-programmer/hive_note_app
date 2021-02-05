@@ -42,7 +42,7 @@ class _AppState extends State<App> {
           ),
         ),
       ),
-      title: "VNotes",
+      title: 'VNotes',
       home: Home(),
     );
   }
