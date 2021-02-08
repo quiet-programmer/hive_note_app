@@ -7,7 +7,7 @@ const Color bodyColor = Color.fromRGBO(33, 33, 33, 1);
 
 // Hive details
 const String noteBox = 'notebox';
-const String appHiveKey = "state";
+const String appHiveKey = 'state';
 
 const String appCast =
-    "https://condescending-euler-c20d1c.netlify.app/index.xml";
+    'https://condescending-euler-c20d1c.netlify.app/index.xml';
