@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/screens/create_note_screen.dart';
-import 'package:note_app/screens/note_screen.dart';
+import 'package:note_app/screens/read_notes_screens.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -23,6 +23,51 @@ class _HomeState extends State<Home> {
     storeData = Hive.box<NoteModel>(noteBox);
   }
 
+  void deleteDialog(key) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          backgroundColor: backColor,
+          titleTextStyle: TextStyle(
+            color: Colors.black54,
+          ),
+          contentTextStyle: TextStyle(
+            color: Colors.black54,
+          ),
+          title: Text('Warning'),
+          content: Text('Are you sure you want to delete this note?'),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                storeData.delete(key);
+                Navigator.of(context).pop();
+                setState(() {});
+              },
+              child: Text(
+                'Yes',
+                style: TextStyle(
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'No',
+                style: TextStyle(
+                  color: Colors.black54,
+                ),
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // final NoteModel changeTheme = Hive.box(noteBox).get(appHiveKey);
@@ -34,7 +79,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: backColor,
       appBar: AppBar(
-        title: Text("Notes"),
+        title: Text('Notes'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -52,14 +97,14 @@ class _HomeState extends State<Home> {
       body: UpgradeAlert(
         appcastConfig: config,
         debugLogging: true,
-        countryCode: "NG",
+        countryCode: 'NG',
         dialogStyle: UpgradeDialogStyle.material,
         canDismissDialog: true,
         durationToAlertAgain: Duration(days: 1),
         child: storeData.isEmpty
             ? Center(
                 child: Text(
-                  "No Notes Yet...",
+                  'No Notes Yet...',
                   style: TextStyle(
                     fontSize: 18.0,
                     color: Colors.black54,
@@ -87,73 +132,78 @@ class _HomeState extends State<Home> {
                           return GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(MySlide(builder: (_) {
-                                return NoteScreen(
+                                return ReadNotesScreen(
                                   note: note,
                                   notekey: key,
                                 );
                               }));
                             },
                             onLongPress: () {
-                              showDialog(
-                                context: context,
-                                builder: (_) {
-                                  return AlertDialog(
-                                    backgroundColor: backColor,
-                                    titleTextStyle: TextStyle(
-                                      color: Colors.black54,
-                                    ),
-                                    contentTextStyle: TextStyle(
-                                      color: Colors.black54,
-                                    ),
-                                    title: Text("Warning"),
-                                    content: Text(
-                                        "Are you sure you want to delete this note?"),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        onPressed: () {
-                                          storeData.delete(key);
-                                          Navigator.of(context).pop();
-                                          setState(() {});
-                                        },
-                                        child: Text(
-                                          "Yes",
-                                          style: TextStyle(
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                      ),
-                                      FlatButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text(
-                                          "No",
-                                          style: TextStyle(
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                },
-                              );
+                              deleteDialog(key);
                             },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white38,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0))),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Text(
-                                  note.notes,
-                                  style: TextStyle(
-                                    color: Colors.black,
+                            child: note.title == null
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white38,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Text(
+                                        '${note.notes}',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                        softWrap: true,
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white38,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(8),
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                              color: backColor,
+                                            ),
+                                            child: Text(
+                                              note.title == null ||
+                                                      note.title == ''
+                                                  ? 'No Title'
+                                                  : '${note.title}',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              softWrap: true,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            '${note.notes}',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            ),
+                                            softWrap: true,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                  softWrap: true,
-                                ),
-                              ),
-                            ),
                           );
                         },
                         itemCount: keys.length,
