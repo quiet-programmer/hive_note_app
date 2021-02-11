@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
-import 'package:note_app/screens/note_screen.dart';
+import 'package:note_app/screens/read_notes_screens.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:toast/toast.dart';
 
@@ -18,6 +18,8 @@ class EditNoteScreen extends StatefulWidget {
 
 class _EditNoteScreenState extends State<EditNoteScreen> {
   Box<NoteModel> storeData;
+  final goToNotes = FocusNode();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   TextStyle myTextStyle;
   TextAlign myTextAlign;
@@ -33,6 +35,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
     // _noteText = widget.notes.notes;
     if (_isInit) {
       _initValue = {
+        'title': widget.notes.title.toString(),
         'notes': widget.notes.notes.toString(),
         'conText': widget.notes.notes.toString()
       };
@@ -53,138 +56,172 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
 
   bool isEdited;
 
-  Future<bool> verifyIfNoteIsEdited() async {
-    if (_initValue['notes'].length > widget.notes.notes.toString().length) {
-      print('save the note');
-      var key = widget.noteKey;
-      String note = _initValue['notes'];
-      NoteModel noteM = NoteModel(
-        notes: note,
-      );
-      storeData.put(key, noteM);
-      Navigator.of(context).pop();
-      Toast.show("Note Saved", context, duration: 3, gravity: Toast.BOTTOM);
-      isEdited = true;
-    } else {
-      print('text was not save');
-      Toast.show(
-        "No changes made, nothing was saved",
-        context,
-        duration: 5,
-      );
-      Navigator.of(context).pop();
-      isEdited = false;
-    }
-    return isEdited;
-  }
+  //TODO? thinking of a better way to check for this
+  // Future<bool> verifyIfNoteIsEdited() async {
+  //   if (_initValue['notes'].length > widget.notes.notes.toString().length) {
+  //     print('save the note');
+  //     var key = widget.noteKey;
+  //     String title = _initValue['title'];
+  //     String note = _initValue['notes'];
+  //     NoteModel noteM = NoteModel(
+  //       title: title,
+  //       notes: note,
+  //     );
+  //     storeData.put(key, noteM);
+  //     Navigator.of(context).pop();
+  //     Toast.show("Note Saved", context, duration: 3, gravity: Toast.BOTTOM);
+  //     isEdited = true;
+  //   } else {
+  //     print('text was not save');
+  //     Toast.show(
+  //       "No changes made, nothing was saved",
+  //       context,
+  //       duration: 5,
+  //     );
+  //     Navigator.of(context).pop();
+  //     isEdited = false;
+  //   }
+  //   return isEdited;
+  // }
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    return WillPopScope(
-      onWillPop: verifyIfNoteIsEdited,
-      child: Scaffold(
-        backgroundColor: backColor,
-        appBar: AppBar(
-          title: Text("Edit note"),
-          centerTitle: true,
-          actions: <Widget>[
-            FlatButton.icon(
-              onPressed: () {
-                if (_initValue['notes'].isEmpty) {
-                  return;
-                } else {
-                  var key = widget.noteKey;
-                  String note = _initValue['notes'];
-                  NoteModel noteM = NoteModel(
-                    notes: note,
-                  );
-                  storeData.put(key, noteM);
-                  Toast.show("Note Saved", context,
-                      duration: 3, gravity: Toast.BOTTOM);
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(MySlide(builder: (_) {
-                    return NoteScreen(note: noteM, notekey: key);
-                  }));
-                }
-              },
-              icon: Icon(
-                Icons.done,
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: backColor,
+      appBar: AppBar(
+        title: TextFormField(
+          initialValue: _initValue['title'],
+          autofocus: true,
+          onChanged: (val) {
+            _initValue['title'] = val;
+          },
+          decoration: InputDecoration(
+            hintText: 'Create Note Title...',
+            hintStyle: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            border: InputBorder.none,
+          ),
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          onFieldSubmitted: (_) {
+            FocusScope.of(context).requestFocus(goToNotes);
+          },
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.sentences,
+          textInputAction: TextInputAction.done,
+        ),
+        centerTitle: false,
+        actions: <Widget>[
+          FlatButton.icon(
+            onPressed: () {
+              if (_initValue['notes'].isEmpty) {
+                return;
+              } else {
+                var key = widget.noteKey;
+                String title = _initValue['title'];
+                String note = _initValue['notes'];
+                NoteModel noteM = NoteModel(
+                  title: title,
+                  notes: note,
+                );
+                storeData.put(key, noteM);
+                Toast.show('Note Saved', context,
+                    duration: 3, gravity: Toast.BOTTOM);
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MySlide(builder: (_) {
+                  return ReadNotesScreen(note: noteM, notekey: key);
+                }));
+              }
+            },
+            icon: Icon(
+              Icons.done,
+              color: Colors.black54,
+            ),
+            label: Text(
+              'Update',
+              style: TextStyle(
                 color: Colors.black54,
               ),
-              label: Text(
-                "Update",
-                style: TextStyle(
-                  color: Colors.black54,
-                ),
-              ),
             ),
-          ],
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: TextFormField(
-            initialValue: _initValue['notes'],
-            autofocus: true,
-            onChanged: (value) {
-              _initValue['notes'] = value;
-            },
-            decoration: InputDecoration(
-              border: InputBorder.none,
-            ),
-            style: myTextStyle,
-            textAlign: myTextAlign,
-            maxLines: height.toInt(),
           ),
-
-          // Column(
-          //   crossAxisAlignment: CrossAxisAlignment.stretch,
-          //   children: <Widget>[
-          //     SafeArea(
-          //       child: Container(
-          //         width: MediaQuery.of(context).size.width,
-          //         child: Align(
-          //           alignment: Alignment.topCenter,
-          //           child: TextStyleEditor(
-          //             backgroundColor: Colors.white38,
-          //             height: 220,
-          //             textStyle: myTextStyle,
-          //             onTextStyleChanged: (val) {
-          //               setState(() {
-          //                 myTextStyle = val;
-          //               });
-          //             },
-          //             onTextAlignChanged: (val) {
-          //               setState(() {
-          //                 myTextAlign = val;
-          //               });
-          //             },
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //     Expanded(
-          //       child: ListView(
-          //         children: [
-          //           TextFormField(
-          //             initialValue: _initValue['notes'],
-          //             autofocus: true,
-          //             onChanged: (value) {
-          //               _initValue['notes'] = value;
-          //             },
-          //             decoration: InputDecoration(
-          //               border: InputBorder.none,
-          //             ),
-          //             style: myTextStyle,
-          //             textAlign: myTextAlign,
-          //             maxLines: height.toInt(),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
+        ],
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: TextFormField(
+          initialValue: _initValue['notes'],
+          autofocus: true,
+          onChanged: (value) {
+            _initValue['notes'] = value;
+          },
+          decoration: InputDecoration(
+            border: InputBorder.none,
+          ),
+          focusNode: goToNotes,
+          style: myTextStyle,
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.sentences,
+          textAlign: myTextAlign,
+          maxLines: height.toInt(),
         ),
+
+        //TODO! trying to add styling functionality, having issues
+        //TODO! persisting the style for a saved note
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.stretch,
+        //   children: <Widget>[
+        //     SafeArea(
+        //       child: Container(
+        //         width: MediaQuery.of(context).size.width,
+        //         child: Align(
+        //           alignment: Alignment.topCenter,
+        //           child: TextStyleEditor(
+        //             backgroundColor: Colors.white38,
+        //             height: 220,
+        //             textStyle: myTextStyle,
+        //             onTextStyleChanged: (val) {
+        //               setState(() {
+        //                 myTextStyle = val;
+        //               });
+        //             },
+        //             onTextAlignChanged: (val) {
+        //               setState(() {
+        //                 myTextAlign = val;
+        //               });
+        //             },
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //     Expanded(
+        //       child: ListView(
+        //         children: [
+        //           TextFormField(
+        //             initialValue: _initValue['notes'],
+        //             autofocus: true,
+        //             onChanged: (value) {
+        //               _initValue['notes'] = value;
+        //             },
+        //             decoration: InputDecoration(
+        //               border: InputBorder.none,
+        //             ),
+        //             style: myTextStyle,
+        //             textAlign: myTextAlign,
+        //             maxLines: height.toInt(),
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ],
+        // ),
       ),
     );
   }
