@@ -116,7 +116,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
           },
           keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.sentences,
-          textInputAction: TextInputAction.done,
+          textInputAction: TextInputAction.next,
         ),
         centerTitle: false,
         actions: <Widget>[
@@ -167,7 +167,6 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
           ),
           focusNode: goToNotes,
           style: myTextStyle,
-          keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.sentences,
           textAlign: myTextAlign,
           maxLines: height.toInt(),
@@ -175,53 +174,6 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
 
         //TODO! trying to add styling functionality, having issues
         //TODO! persisting the style for a saved note
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.stretch,
-        //   children: <Widget>[
-        //     SafeArea(
-        //       child: Container(
-        //         width: MediaQuery.of(context).size.width,
-        //         child: Align(
-        //           alignment: Alignment.topCenter,
-        //           child: TextStyleEditor(
-        //             backgroundColor: Colors.white38,
-        //             height: 220,
-        //             textStyle: myTextStyle,
-        //             onTextStyleChanged: (val) {
-        //               setState(() {
-        //                 myTextStyle = val;
-        //               });
-        //             },
-        //             onTextAlignChanged: (val) {
-        //               setState(() {
-        //                 myTextAlign = val;
-        //               });
-        //             },
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //     Expanded(
-        //       child: ListView(
-        //         children: [
-        //           TextFormField(
-        //             initialValue: _initValue['notes'],
-        //             autofocus: true,
-        //             onChanged: (value) {
-        //               _initValue['notes'] = value;
-        //             },
-        //             decoration: InputDecoration(
-        //               border: InputBorder.none,
-        //             ),
-        //             style: myTextStyle,
-        //             textAlign: myTextAlign,
-        //             maxLines: height.toInt(),
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   ],
-        // ),
       ),
     );
   }
