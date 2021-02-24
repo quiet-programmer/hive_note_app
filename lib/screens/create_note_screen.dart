@@ -40,10 +40,11 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   @override
   void dispose() {
     super.dispose();
+    _noteTitle.dispose();
     _noteText.dispose();
   }
 
-  Future<bool> checkIfNoteIsNotEmpty() async {
+  Future<bool> checkIfNoteIsNotEmptyWhenGoingBack() async {
     if (_noteText.text.isNotEmpty || _noteTitle.text.isNotEmpty) {
       print('save the note');
       final String noteTitle = _noteTitle.text;
@@ -75,15 +76,35 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
     return _isNotEmpty;
   }
 
+  void checkIfNoteIsNotEmptyAndSaveNote() {
+    if (_noteText.text.isEmpty) {
+      return;
+    } else {
+      final String noteTitle = _noteTitle.text;
+      final String note = _noteText.text;
+      NoteModel noteM = NoteModel(
+        title: noteTitle,
+        notes: note,
+      );
+      storeData.add(noteM);
+      Toast.show('Note Saved', context, duration: 3, gravity: Toast.BOTTOM);
+      Navigator.of(context).pop();
+      Navigator.of(context).push(MySlide(builder: (_) {
+        return Home();
+      }));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     return WillPopScope(
-      onWillPop: checkIfNoteIsNotEmpty,
+      onWillPop: checkIfNoteIsNotEmptyWhenGoingBack,
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: backColor,
         appBar: AppBar(
+          // used a text form field for the app bar
           title: TextFormField(
             autofocus: true,
             controller: _noteTitle,
@@ -106,29 +127,14 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
             },
             keyboardType: TextInputType.text,
             textCapitalization: TextCapitalization.sentences,
-            textInputAction: TextInputAction.done,
+            textInputAction: TextInputAction.next,
           ),
+          // ends here //
           centerTitle: false,
           actions: <Widget>[
             FlatButton.icon(
               onPressed: () {
-                if (_noteText.text.isEmpty) {
-                  return;
-                } else {
-                  final String noteTitle = _noteTitle.text;
-                  final String note = _noteText.text;
-                  NoteModel noteM = NoteModel(
-                    title: noteTitle,
-                    notes: note,
-                  );
-                  storeData.add(noteM);
-                  Toast.show('Note Saved', context,
-                      duration: 3, gravity: Toast.BOTTOM);
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(MySlide(builder: (_) {
-                    return Home();
-                  }));
-                }
+                checkIfNoteIsNotEmptyAndSaveNote();
               },
               icon: Icon(
                 Icons.done,
@@ -155,7 +161,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                 ),
                 border: InputBorder.none,
               ),
-              keyboardType: TextInputType.text,
               textCapitalization: TextCapitalization.sentences,
               focusNode: goToNotes,
               style: myTextStyle,
@@ -165,49 +170,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
 
             //TODO! trying to add styling functionality, having issues
             //TODO! persisting the style for a saved note
-            // Column(
-            //   mainAxisSize: MainAxisSize.min,
-            //   children: <Widget>[
-            //     SafeArea(
-            //       child: Container(
-            //         width: MediaQuery.of(context).size.width,
-            //         child: Align(
-            //           alignment: Alignment.topCenter,
-            //           child: TextStyleEditor(
-            //             backgroundColor: Colors.white38,
-            //             height: 220,
-            //             textStyle: myTextStyle,
-            //             onTextStyleChanged: (val) {
-            //               setState(() {
-            //                 myTextStyle = val;
-            //               });
-            //             },
-            //             onTextAlignChanged: (val) {
-            //               setState(() {
-            //                 myTextAlign = val;
-            //               });
-            //             },
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //     Expanded(
-            //       child: ListView(children: [
-            //         TextFormField(
-            //           autofocus: true,
-            //           controller: _noteText,
-            //           decoration: InputDecoration(
-            //             hintText: "Type Note...",
-            //             border: InputBorder.none,
-            //           ),
-            //           style: myTextStyle,
-            //           textAlign: myTextAlign,
-            //           maxLines: height.toInt(),
-            //         ),
-            //       ]),
-            //     ),
-            //   ],
-            // ),
           ),
         ),
       ),
