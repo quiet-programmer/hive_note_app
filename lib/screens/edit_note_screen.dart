@@ -137,7 +137,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                     duration: 3, gravity: Toast.BOTTOM);
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MySlide(builder: (_) {
-                  return ReadNotesScreen(note: noteM, notekey: key);
+                  return ReadNotesScreen(note: noteM, noteKey: key);
                 }));
               }
             },
