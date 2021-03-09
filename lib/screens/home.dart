@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
           title: Text('Warning'),
           content: Text('Are you sure you want to delete this note?'),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () {
                 storeData.delete(key);
                 Navigator.of(context).pop();
@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -80,6 +80,13 @@ class _HomeState extends State<Home> {
       backgroundColor: backColor,
       appBar: AppBar(
         title: Text('Notes'),
+        // TODO:* adding support for localization soon.
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {},
+        //     icon: Icon(Icons.language),
+        //   )
+        // ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -134,7 +141,7 @@ class _HomeState extends State<Home> {
                               Navigator.of(context).push(MySlide(builder: (_) {
                                 return ReadNotesScreen(
                                   note: note,
-                                  notekey: key,
+                                  noteKey: key,
                                 );
                               }));
                             },
@@ -193,12 +200,14 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          Text(
-                                            '${note.notes}',
-                                            style: TextStyle(
-                                              color: Colors.black,
+                                          Expanded(
+                                            child: Text(
+                                              '${note.notes}',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                              ),
+                                              softWrap: true,
                                             ),
-                                            softWrap: true,
                                           ),
                                         ],
                                       ),
