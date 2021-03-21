@@ -132,7 +132,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
           // ends here //
           centerTitle: false,
           actions: <Widget>[
-            FlatButton.icon(
+            TextButton.icon(
               onPressed: () {
                 checkIfNoteIsNotEmptyAndSaveNote();
               },

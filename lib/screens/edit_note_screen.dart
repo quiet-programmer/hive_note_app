@@ -120,7 +120,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
         ),
         centerTitle: false,
         actions: <Widget>[
-          FlatButton.icon(
+          TextButton.icon(
             onPressed: () {
               if (_initValue['notes'].isEmpty) {
                 return;
