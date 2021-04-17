@@ -58,7 +58,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
     _getLanguages();
 
     // flutterTts.setVoice("en-us-x-sfg#male_1-local");
-    flutterTts.setLanguage("en-Us");
+    flutterTts.setLanguage('en-Us');
 
     if (isAndroid) {
       _getEngines();
@@ -66,21 +66,21 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
 
     flutterTts.setStartHandler(() {
       setState(() {
-        print("Playing");
+        print('Playing');
         ttsState = TtsState.playing;
       });
     });
 
     flutterTts.setCompletionHandler(() {
       setState(() {
-        print("Complete");
+        print('Complete');
         ttsState = TtsState.stopped;
       });
     });
 
     flutterTts.setCancelHandler(() {
       setState(() {
-        print("Cancel");
+        print('Cancel');
         ttsState = TtsState.stopped;
       });
     });
@@ -88,14 +88,14 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
     if (isWeb || isIOS) {
       flutterTts.setPauseHandler(() {
         setState(() {
-          print("Paused");
+          print('Paused');
           ttsState = TtsState.paused;
         });
       });
 
       flutterTts.setContinueHandler(() {
         setState(() {
-          print("Continued");
+          print('Continued');
           ttsState = TtsState.continued;
         });
       });
@@ -103,7 +103,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
 
     flutterTts.setErrorHandler((msg) {
       setState(() {
-        print("error: $msg");
+        print('error: $msg');
         ttsState = TtsState.stopped;
       });
     });
@@ -141,11 +141,12 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
     if (result == 1) setState(() => ttsState = TtsState.stopped);
   }
 
-  Future _pause() async {
-    var result =
-        await flutterTts.setSilence(widget.note.notes.toString().length);
-    if (result == 1) setState(() => ttsState = TtsState.paused);
-  }
+  // Android does not support pause as of this moment
+  // Future _pause() async {
+  //   var result =
+  //       await flutterTts.setSilence(widget.note.notes.toString().length);
+  //   if (result == 1) setState(() => ttsState = TtsState.paused);
+  // }
 
   @override
   void dispose() {
