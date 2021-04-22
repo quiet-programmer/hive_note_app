@@ -6,6 +6,7 @@ import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/screens/create_note_screen.dart';
 import 'package:note_app/screens/read_notes_screens.dart';
+import 'package:note_app/screens/settings_screen.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -77,16 +78,21 @@ class _HomeState extends State<Home> {
       supportedOS: ['android'],
     );
     return Scaffold(
-      backgroundColor: backColor,
       appBar: AppBar(
         title: Text('Notes'),
         // TODO:* adding support for localization soon.
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {},
-        //     icon: Icon(Icons.language),
-        //   )
-        // ],
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                return SettingsScreen();
+              }));
+            },
+            icon: Icon(
+              Icons.settings,
+            ),
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
