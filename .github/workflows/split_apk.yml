@@ -16,7 +16,7 @@ jobs:
         with:
           channel: "stable"
       - run: flutter pub get
-      - run: flutter build apk -t lib/main.dart --splite-per-abi
+      - run: flutter build apk --splite-per-abi
       - name: Release apk
         uses: ncipollo/release-action@v1
         with:
