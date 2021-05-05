@@ -49,7 +49,7 @@ ThemeData buildDarkTheme() => ThemeData.dark().copyWith(
       backgroundColor: Colors.grey[900],
       accentColor: Colors.grey[400],
       scaffoldBackgroundColor: darkColor,
-      dividerColor: defaultBlack,
+      dividerColor: defaultWhite,
       iconTheme: IconThemeData(
         color: defaultWhite,
       ),
@@ -57,7 +57,22 @@ ThemeData buildDarkTheme() => ThemeData.dark().copyWith(
         color: cardColor,
       ),
       dialogTheme: DialogTheme(
-        backgroundColor: defaultBlack,
+        backgroundColor: Colors.grey[900],
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+        contentTextStyle: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: MaterialStateProperty.resolveWith(
+          (states) => Colors.grey[400],
+        ),
+        trackColor: MaterialStateProperty.resolveWith(
+          (states) => Colors.white,
+        ),
       ),
       appBarTheme: AppBarTheme(
         centerTitle: true,
