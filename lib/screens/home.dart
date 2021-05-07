@@ -1,13 +1,22 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
+import 'package:note_app/models/user_models.dart';
+import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/screens/create_note_screen.dart';
 import 'package:note_app/screens/read_notes_screens.dart';
 import 'package:note_app/screens/settings_screen.dart';
+import 'package:note_app/services/database.dart';
 import 'package:note_app/utils/slide_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:upgrader/upgrader.dart';
 
 class Home extends StatefulWidget {
@@ -18,60 +27,85 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Box<NoteModel> storeData;
 
+  Timer timer;
+
   @override
   void initState() {
     super.initState();
     storeData = Hive.box<NoteModel>(noteBox);
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
+  }
+
   void deleteDialog(key) {
     showDialog(
       context: context,
       builder: (_) {
-        return AlertDialog(
-          backgroundColor: backColor,
-          titleTextStyle: TextStyle(
-            color: Colors.black54,
-          ),
-          contentTextStyle: TextStyle(
-            color: Colors.black54,
-          ),
-          title: Text('Warning'),
-          content: Text('Are you sure you want to delete this note?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                storeData.delete(key);
-                Navigator.of(context).pop();
-                setState(() {});
-              },
-              child: Text(
-                'Yes',
-                style: TextStyle(
-                  color: Colors.black54,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'No',
-                style: TextStyle(
-                  color: Colors.black54,
-                ),
-              ),
-            )
-          ],
-        );
+        return Platform.isAndroid
+            ? AlertDialog(
+                title: Text('Warning'),
+                content: Text('Are you sure you want to delete this note?'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      storeData.delete(key);
+                      Navigator.of(context).pop();
+                      setState(() {});
+                    },
+                    child: Text(
+                      'Yes',
+                      style: TextStyle(),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'No',
+                      style: TextStyle(),
+                    ),
+                  )
+                ],
+              )
+            : CupertinoAlertDialog(
+                title: Text('Warning'),
+                content: Text('Are you sure you want to delete this note?'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'No',
+                      style: TextStyle(),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      storeData.delete(key);
+                      Navigator.of(context).pop();
+                      setState(() {});
+                    },
+                    child: Text(
+                      'Yes',
+                      style: TextStyle(),
+                    ),
+                  ),
+                ],
+              );
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // final NoteModel changeTheme = Hive.box(noteBox).get(appHiveKey);
+    final checkTheme = Provider.of<ThemeProvider>(context);
+    final user = Provider.of<UserModels>(context);
     Upgrader().clearSavedSettings();
     final config = AppcastConfiguration(
       url: appCast,
@@ -82,6 +116,18 @@ class _HomeState extends State<Home> {
         title: Text('Notes'),
         // TODO:* adding support for localization soon.
         actions: [
+          if (Platform.isIOS)
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MySlide(builder: (_) {
+                  return CreateNoteScreen();
+                }));
+              },
+              icon: Icon(
+                CupertinoIcons.add_circled,
+              ),
+            ),
           IconButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (_) {
@@ -91,22 +137,23 @@ class _HomeState extends State<Home> {
             icon: Icon(
               Icons.settings,
             ),
-          )
+          ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-          Navigator.of(context).push(MySlide(builder: (_) {
-            return CreateNoteScreen();
-          }));
-        },
-        backgroundColor: Colors.white60,
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
+      floatingActionButton: Platform.isAndroid
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MySlide(builder: (_) {
+                  return CreateNoteScreen();
+                }));
+              },
+              backgroundColor: Colors.white60,
+              child: Icon(
+                Icons.add,
+              ),
+            )
+          : null,
       body: UpgradeAlert(
         appcastConfig: config,
         debugLogging: true,
@@ -120,7 +167,6 @@ class _HomeState extends State<Home> {
                   'No Notes Yet...',
                   style: TextStyle(
                     fontSize: 18.0,
-                    color: Colors.black54,
                   ),
                 ),
               )
@@ -142,6 +188,19 @@ class _HomeState extends State<Home> {
                         itemBuilder: (_, index) {
                           final key = keys[index];
                           final NoteModel note = notes.get(key);
+                          timer =
+                              Timer.periodic(Duration(seconds: 60), (timer) {
+                            Map userNotes = {
+                              'key': key,
+                              'title': note.title,
+                              'noteBody': note.notes,
+                            };
+                            if (user != null && storeData.isNotEmpty) {
+                              // if(note.title.length < note.notes.length)
+                              DatabaseService(uid: user.uid)
+                                  .uploadNotesToCloud(userNotes, key, context);
+                            }
+                          });
                           return GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(MySlide(builder: (_) {
@@ -164,9 +223,7 @@ class _HomeState extends State<Home> {
                                       padding: const EdgeInsets.all(16.0),
                                       child: Text(
                                         '${note.notes}',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                        ),
+                                        style: TextStyle(),
                                         softWrap: true,
                                       ),
                                     ),
@@ -188,7 +245,9 @@ class _HomeState extends State<Home> {
                                                 .size
                                                 .width,
                                             decoration: BoxDecoration(
-                                              color: backColor,
+                                              color: checkTheme.mTheme == false
+                                                  ? backColor
+                                                  : Colors.grey[900],
                                             ),
                                             child: Text(
                                               note.title == null ||
@@ -196,7 +255,6 @@ class _HomeState extends State<Home> {
                                                   ? 'No Title'
                                                   : '${note.title}',
                                               style: TextStyle(
-                                                color: Colors.black,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                               softWrap: true,
@@ -209,9 +267,7 @@ class _HomeState extends State<Home> {
                                           Expanded(
                                             child: Text(
                                               '${note.notes}',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                              ),
+                                              style: TextStyle(),
                                               softWrap: true,
                                             ),
                                           ),
