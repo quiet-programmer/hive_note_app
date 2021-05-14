@@ -6,6 +6,9 @@
 
 <p> Any contribution will be accepted if it meets what is needed, Thanks. </p>
 
+<h1> If you this error "Google Service Json Not Found"</h1>
+<p>Please if you cloned the repo and have error saying, "Google Service json file not found, you need to create a firebase project and add in the Android App Project folder"</p>
+
 ## Plugin's Used
 1. <p><b> Hive (To locally store Data) </b></p> 
 2. <p><b> Toast (To display useful message) </b></p>
