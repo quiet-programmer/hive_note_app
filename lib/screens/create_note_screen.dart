@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
+import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/screens/home.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 import '../utils/slide_transition.dart';
@@ -32,7 +37,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
     storeData = Hive.box<NoteModel>(noteBox);
     myTextStyle = TextStyle(
       fontSize: 18.5,
-      color: Colors.black54,
     );
     myTextAlign = TextAlign.left;
   }
@@ -77,7 +81,8 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   }
 
   void checkIfNoteIsNotEmptyAndSaveNote() {
-    if (_noteText.text.isEmpty) {
+    if (_noteTitle.text.isEmpty || _noteText.text.isEmpty) {
+      Toast.show('Title or note body cannot be empty', context, duration: 4);
       return;
     } else {
       final String noteTitle = _noteTitle.text;
@@ -97,28 +102,31 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final checkTheme = Provider.of<ThemeProvider>(context);
     var height = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: checkIfNoteIsNotEmptyWhenGoingBack,
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: backColor,
         appBar: AppBar(
           // used a text form field for the app bar
+          leading: Platform.isIOS
+              ? IconButton(
+                  icon: Icon(CupertinoIcons.back),
+                  onPressed: checkIfNoteIsNotEmptyWhenGoingBack)
+              : null,
           title: TextFormField(
             autofocus: true,
             controller: _noteTitle,
             decoration: InputDecoration(
               hintText: 'Create Note Title...',
               hintStyle: TextStyle(
-                color: Colors.black,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
               border: InputBorder.none,
             ),
             style: TextStyle(
-              color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -138,12 +146,16 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               },
               icon: Icon(
                 Icons.done,
-                color: Colors.black54,
+                color: checkTheme.mTheme == false
+                    ? Colors.black45
+                    : Colors.white38,
               ),
               label: Text(
                 'Save',
                 style: TextStyle(
-                  color: Colors.black54,
+                  color: checkTheme.mTheme == false
+                      ? Colors.black45
+                      : Colors.white38,
                 ),
               ),
             ),
@@ -156,9 +168,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               controller: _noteText,
               decoration: InputDecoration(
                 hintText: 'Type Note...',
-                hintStyle: TextStyle(
-                  color: Colors.black,
-                ),
+                hintStyle: TextStyle(),
                 border: InputBorder.none,
               ),
               textCapitalization: TextCapitalization.sentences,
