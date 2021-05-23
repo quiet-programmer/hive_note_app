@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -201,6 +200,7 @@ class _HomeState extends State<Home> {
                                   .uploadNotesToCloud(userNotes, key, context);
                             }
                           });
+
                           return GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(MySlide(builder: (_) {
