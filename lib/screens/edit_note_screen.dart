@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
+import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/screens/read_notes_screens.dart';
 import 'package:note_app/utils/slide_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 class EditNoteScreen extends StatefulWidget {
@@ -49,7 +51,6 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
     storeData = Hive.box<NoteModel>(noteBox);
     myTextStyle = TextStyle(
       fontSize: 18.5,
-      color: Colors.black54,
     );
     myTextAlign = TextAlign.left;
   }
@@ -86,10 +87,10 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final checkTheme = Provider.of<ThemeProvider>(context);
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: backColor,
       appBar: AppBar(
         title: TextFormField(
           initialValue: _initValue['title'],
@@ -100,14 +101,12 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
           decoration: InputDecoration(
             hintText: 'Create Note Title...',
             hintStyle: TextStyle(
-              color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
             border: InputBorder.none,
           ),
           style: TextStyle(
-            color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -122,7 +121,8 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
         actions: <Widget>[
           TextButton.icon(
             onPressed: () {
-              if (_initValue['notes'].isEmpty) {
+              if (_initValue['title'].isEmpty || _initValue['notes'].isEmpty) {
+                Toast.show('Title or note body cannot be empty', context, duration: 4);
                 return;
               } else {
                 var key = widget.noteKey;
@@ -143,12 +143,15 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
             },
             icon: Icon(
               Icons.done,
-              color: Colors.black54,
+              color:
+                  checkTheme.mTheme == false ? Colors.black45 : Colors.white38,
             ),
             label: Text(
               'Update',
               style: TextStyle(
-                color: Colors.black54,
+                color: checkTheme.mTheme == false
+                    ? Colors.black45
+                    : Colors.white38,
               ),
             ),
           ),
