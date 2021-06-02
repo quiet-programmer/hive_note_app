@@ -1,7 +1,6 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/screens/edit_note_screen.dart';
 import 'package:note_app/utils/slide_transition.dart';
@@ -169,7 +168,6 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
         '${widget.note.notes.toString()}',
         style: TextStyle(
           fontSize: 18.0,
-          color: Colors.black54,
         ),
       );
     });
@@ -180,7 +178,6 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
   Widget build(BuildContext context) {
     print(widget.note.notes.toString());
     return Scaffold(
-      backgroundColor: backColor,
       appBar: AppBar(
         title: Text(
           'Read Note',
@@ -216,7 +213,6 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
                     ),
                     softWrap: true,
                     textAlign: TextAlign.center,
