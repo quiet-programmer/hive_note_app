@@ -95,6 +95,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         height: 10,
                       ),
                       ListTile(
+                        leading: Icon(Icons.play_arrow),
+                        title: Text(
+                          'Hide Play Button',
+                          style: TextStyle(),
+                        ),
+                        subtitle: Text(
+                          'This will disable or hide the play '
+                          'in the read note screen',
+                        ),
+                        trailing: Switch(
+                          value: checkTheme.mTheme,
+                          onChanged: (val) {},
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      ListTile(
                         leading: Icon(Icons.cloud_upload),
                         title: Text(
                           'Enable Cloud Storage',
