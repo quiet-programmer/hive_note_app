@@ -38,6 +38,7 @@ class AuthService {
           message: 'Successfully signed in.',
           duration: Duration(seconds: 7),
         );
+        flushBar.show(context);
         return _userFromFirebaseUser(user);
       }).catchError((err) {
         if (err.code == 'user-not-found') {
