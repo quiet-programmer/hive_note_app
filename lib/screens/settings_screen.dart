@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:note_app/providers/hide_play_button_provider.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/services/auth.dart';
 import 'package:package_info/package_info.dart';
@@ -34,6 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final checkTheme = Provider.of<ThemeProvider>(context);
+    final checkButtonState = Provider.of<HidePlayButtonProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('App Settings'),
@@ -105,8 +107,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           'in the read note screen',
                         ),
                         trailing: Switch(
-                          value: checkTheme.mTheme,
-                          onChanged: (val) {},
+                          value: checkButtonState.mPlayButton,
+                          onChanged: (val) {
+                            checkButtonState.checkButtonState();
+                          },
                         ),
                       ),
                       SizedBox(
