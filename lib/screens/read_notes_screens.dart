@@ -2,10 +2,12 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:note_app/models/note_model.dart';
+import 'package:note_app/providers/hide_play_button_provider.dart';
 import 'package:note_app/screens/edit_note_screen.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:provider/provider.dart';
 
 class ReadNotesScreen extends StatefulWidget {
   final NoteModel note;
@@ -176,7 +178,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.note.notes.toString());
+    final checkButtonState = Provider.of<HidePlayButtonProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -228,18 +230,20 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          ttsState == TtsState.stopped
-              ? Icons.play_circle_outline
-              : Icons.stop_circle_outlined,
-          color: Colors.black45,
-        ),
-        backgroundColor: Colors.white60,
-        onPressed: () {
-          ttsState == TtsState.stopped ? _speak() : _stop();
-        },
-      ),
+      floatingActionButton: checkButtonState.mPlayButton == false
+          ? FloatingActionButton(
+              child: Icon(
+                ttsState == TtsState.stopped
+                    ? Icons.play_circle_outline
+                    : Icons.stop_circle_outlined,
+                color: Colors.black45,
+              ),
+              backgroundColor: Colors.white60,
+              onPressed: () {
+                ttsState == TtsState.stopped ? _speak() : _stop();
+              },
+            )
+          : null,
     );
   }
 }
