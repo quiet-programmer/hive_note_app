@@ -28,7 +28,7 @@ class HidePlayButtonProvider with ChangeNotifier {
     await _pref.setBool(key, _mPlayButton);
   }
 
-  void checkTheme() {
+  void checkButtonState() {
     _mPlayButton = !_mPlayButton;
     _saveToPref();
     notifyListeners();
