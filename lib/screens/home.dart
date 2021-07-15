@@ -137,6 +137,10 @@ class _HomeState extends State<Home> {
               Icons.settings,
             ),
           ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.list),
+          ),
         ],
       ),
       floatingActionButton: Platform.isAndroid
