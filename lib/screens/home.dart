@@ -9,6 +9,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/models/user_models.dart';
+import 'package:note_app/providers/change_view_style_provider.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/screens/create_note_screen.dart';
 import 'package:note_app/screens/read_notes_screens.dart';
@@ -105,6 +106,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final checkTheme = Provider.of<ThemeProvider>(context);
     final user = Provider.of<UserModels>(context);
+    final homeViewStyle = Provider.of<ChangeViewStyleProvider>(context);
     Upgrader().clearSavedSettings();
     final config = AppcastConfiguration(
       url: appCast,
