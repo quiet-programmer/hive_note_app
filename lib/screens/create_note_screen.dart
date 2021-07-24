@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/screens/home.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
 
 import '../utils/slide_transition.dart';
 
@@ -18,16 +18,16 @@ class CreateNoteScreen extends StatefulWidget {
 }
 
 class _CreateNoteScreenState extends State<CreateNoteScreen> {
-  Box<NoteModel> storeData;
+  Box<NoteModel>? storeData;
 
   final TextEditingController _noteTitle = TextEditingController();
   final TextEditingController _noteText = TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  TextStyle myTextStyle;
-  TextAlign myTextAlign;
+  TextStyle? myTextStyle;
+  TextAlign? myTextAlign;
 
-  bool _isNotEmpty;
+  bool? _isNotEmpty;
 
   final goToNotes = FocusNode();
 
@@ -57,8 +57,11 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         title: noteTitle,
         notes: note,
       );
-      await storeData.add(noteM);
-      Toast.show('Note Saved', context, duration: 3, gravity: Toast.BOTTOM);
+      await storeData!.add(noteM);
+      await Fluttertoast.showToast(
+        msg: 'Note Saved',
+        toastLength: Toast.LENGTH_SHORT,
+      );
       Navigator.of(context).pop();
       await Navigator.of(context).push(MaterialPageRoute(builder: (_) {
         return Home();
@@ -66,10 +69,9 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       _isNotEmpty = true;
     } else {
       print('text was not save');
-      Toast.show(
-        'Note was empty, nothing was saved',
-        context,
-        duration: 5,
+      await Fluttertoast.showToast(
+        msg: 'Note was empty, nothing was saved',
+        toastLength: Toast.LENGTH_SHORT,
       );
       Navigator.of(context).pop();
       await Navigator.of(context).push(MaterialPageRoute(builder: (_) {
@@ -77,12 +79,15 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       }));
       _isNotEmpty = false;
     }
-    return _isNotEmpty;
+    return _isNotEmpty!;
   }
 
   void checkIfNoteIsNotEmptyAndSaveNote() {
     if (_noteTitle.text.isEmpty || _noteText.text.isEmpty) {
-      Toast.show('Title or note body cannot be empty', context, duration: 4);
+      Fluttertoast.showToast(
+        msg: 'Title or note body cannot be empty',
+        toastLength: Toast.LENGTH_SHORT,
+      );
       return;
     } else {
       final String noteTitle = _noteTitle.text;
@@ -91,8 +96,11 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         title: noteTitle,
         notes: note,
       );
-      storeData.add(noteM);
-      Toast.show('Note Saved', context, duration: 3, gravity: Toast.BOTTOM);
+      storeData!.add(noteM);
+      Fluttertoast.showToast(
+        msg: 'Note Saved',
+        toastLength: Toast.LENGTH_SHORT,
+      );
       Navigator.of(context).pop();
       Navigator.of(context).push(MySlide(builder: (_) {
         return Home();
@@ -174,7 +182,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               textCapitalization: TextCapitalization.sentences,
               focusNode: goToNotes,
               style: myTextStyle,
-              textAlign: myTextAlign,
+              textAlign: myTextAlign!,
               maxLines: height.toInt(),
             ),
 

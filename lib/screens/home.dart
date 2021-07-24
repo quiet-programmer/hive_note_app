@@ -25,9 +25,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Box<NoteModel> storeData;
+  Box<NoteModel>? storeData;
 
-  Timer timer;
+  Timer? timer;
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
-                      storeData.delete(key);
+                      storeData!.delete(key);
                       Navigator.of(context).pop();
                       setState(() {});
                     },
@@ -87,7 +87,7 @@ class _HomeState extends State<Home> {
                   ),
                   TextButton(
                     onPressed: () {
-                      storeData.delete(key);
+                      storeData!.delete(key);
                       Navigator.of(context).pop();
                       setState(() {});
                     },
@@ -166,7 +166,7 @@ class _HomeState extends State<Home> {
         dialogStyle: UpgradeDialogStyle.material,
         canDismissDialog: true,
         durationToAlertAgain: Duration(days: 1),
-        child: storeData.isEmpty
+        child: storeData!.isEmpty
             ? Center(
                 child: Text(
                   'No Notes Yet...',
@@ -179,9 +179,9 @@ class _HomeState extends State<Home> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: ValueListenableBuilder(
-                    valueListenable: storeData.listenable(),
+                    valueListenable: storeData!.listenable(),
                     builder: (context, Box<NoteModel> notes, _) {
-                      List<int> keys = notes.keys.cast<int>().toList();
+                      List<int>? keys = notes.keys.cast<int>().toList();
                       return StaggeredGridView.countBuilder(
                         physics: NeverScrollableScrollPhysics(),
                         primary: false,
@@ -192,15 +192,15 @@ class _HomeState extends State<Home> {
                         addRepaintBoundaries: true,
                         itemBuilder: (_, index) {
                           final key = keys[index];
-                          final NoteModel note = notes.get(key);
+                          final NoteModel? note = notes.get(key);
                           timer =
                               Timer.periodic(Duration(seconds: 60), (timer) {
                             Map userNotes = {
                               'key': key,
-                              'title': note.title,
+                              'title': note!.title,
                               'noteBody': note.notes,
                             };
-                            if (user != null && storeData.isNotEmpty) {
+                            if (user != null && storeData!.isNotEmpty) {
                               // if(note.title.length < note.notes.length)
                               DatabaseService(uid: user.uid)
                                   .uploadNotesToCloud(userNotes, key, context);
@@ -219,7 +219,7 @@ class _HomeState extends State<Home> {
                             onLongPress: () {
                               deleteDialog(key);
                             },
-                            child: note.title == null
+                            child: note!.title == null
                                 ? Container(
                                     decoration: BoxDecoration(
                                         color: Colors.white38,

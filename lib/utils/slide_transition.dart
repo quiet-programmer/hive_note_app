@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class MySlide extends MaterialPageRoute {
   MySlide({
-    WidgetBuilder builder,
-    RouteSettings settings,
-  }) : super(builder: builder, settings: settings);
+    WidgetBuilder? builder,
+    RouteSettings? settings,
+  }) : super(builder: builder!, settings: settings);
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,

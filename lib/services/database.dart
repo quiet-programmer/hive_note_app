@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class DatabaseService {
-  final String uid;
+  final String? uid;
 
   DatabaseService({this.uid});
 

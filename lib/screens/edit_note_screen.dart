@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
@@ -6,11 +7,10 @@ import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/screens/read_notes_screens.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
 
 class EditNoteScreen extends StatefulWidget {
-  final NoteModel notes;
-  final int noteKey;
+  final NoteModel? notes;
+  final int? noteKey;
 
   EditNoteScreen({key, @required this.notes, @required this.noteKey})
       : super(key: key);
@@ -19,12 +19,12 @@ class EditNoteScreen extends StatefulWidget {
 }
 
 class _EditNoteScreenState extends State<EditNoteScreen> {
-  Box<NoteModel> storeData;
+  Box<NoteModel>? storeData;
   final goToNotes = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  TextStyle myTextStyle;
-  TextAlign myTextAlign;
+  TextStyle? myTextStyle;
+  TextAlign? myTextAlign;
 
   var coText;
   var _initValue = {'notes': '', 'conText': ''};
@@ -37,9 +37,9 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
     // _noteText = widget.notes.notes;
     if (_isInit) {
       _initValue = {
-        'title': widget.notes.title.toString(),
-        'notes': widget.notes.notes.toString(),
-        'conText': widget.notes.notes.toString()
+        'title': widget.notes!.title.toString(),
+        'notes': widget.notes!.notes.toString(),
+        'conText': widget.notes!.notes.toString()
       };
     }
     _isInit = false;
@@ -55,7 +55,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
     myTextAlign = TextAlign.left;
   }
 
-  bool isEdited;
+  bool? isEdited;
 
   //TODO? thinking of a better way to check for this
   // Future<bool> verifyIfNoteIsEdited() async {
@@ -121,20 +121,26 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
         actions: <Widget>[
           TextButton.icon(
             onPressed: () {
-              if (_initValue['title'].isEmpty || _initValue['notes'].isEmpty) {
-                Toast.show('Title or note body cannot be empty', context, duration: 4);
+              if (_initValue['title']!.isEmpty ||
+                  _initValue['notes']!.isEmpty) {
+                Fluttertoast.showToast(
+                  msg: 'Title or note body cannot be empty',
+                  toastLength: Toast.LENGTH_SHORT,
+                );
                 return;
               } else {
                 var key = widget.noteKey;
-                String title = _initValue['title'];
-                String note = _initValue['notes'];
+                String? title = _initValue['title'];
+                String? note = _initValue['notes'];
                 NoteModel noteM = NoteModel(
-                  title: title,
-                  notes: note,
+                  title: title!,
+                  notes: note!,
                 );
-                storeData.put(key, noteM);
-                Toast.show('Note Saved', context,
-                    duration: 3, gravity: Toast.BOTTOM);
+                storeData!.put(key, noteM);
+                Fluttertoast.showToast(
+                  msg: 'Note Saved',
+                  toastLength: Toast.LENGTH_SHORT,
+                );
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MySlide(builder: (_) {
                   return ReadNotesScreen(note: noteM, noteKey: key);
@@ -171,7 +177,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
           focusNode: goToNotes,
           style: myTextStyle,
           textCapitalization: TextCapitalization.sentences,
-          textAlign: myTextAlign,
+          textAlign: myTextAlign!,
           maxLines: height.toInt(),
         ),
 

@@ -10,11 +10,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
 
 class ReadNotesScreen extends StatefulWidget {
-  final NoteModel note;
-  final int noteKey;
+  final NoteModel? note;
+  final int? noteKey;
 
   ReadNotesScreen({
-    Key key,
+    Key? key,
     @required this.note,
     @required this.noteKey,
   }) : super(key: key);
@@ -31,14 +31,14 @@ enum TtsState {
 }
 
 class _ReadNotesScreenState extends State<ReadNotesScreen> {
-  FlutterTts flutterTts;
+  FlutterTts? flutterTts;
   dynamic languages;
-  String language;
-  double volume = 0.5;
-  double pitch = 1.0;
-  double rate = 0.9;
+  String? language;
+  double? volume = 0.5;
+  double? pitch = 1.0;
+  double? rate = 0.9;
 
-  String _newVoiceText;
+  String? _newVoiceText;
 
   TtsState ttsState = TtsState.stopped;
 
@@ -50,7 +50,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
   void initState() {
     super.initState();
     initTts();
-    _onChange(widget.note.notes.toString());
+    _onChange(widget.note!.notes.toString());
   }
 
   void initTts() {
@@ -59,27 +59,27 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
     _getLanguages();
 
     // flutterTts.setVoice("en-us-x-sfg#male_1-local");
-    flutterTts.setLanguage('en-Us');
+    flutterTts!.setLanguage('en-Us');
 
     if (isAndroid) {
       _getEngines();
     }
 
-    flutterTts.setStartHandler(() {
+    flutterTts!.setStartHandler(() {
       setState(() {
         print('Playing');
         ttsState = TtsState.playing;
       });
     });
 
-    flutterTts.setCompletionHandler(() {
+    flutterTts!.setCompletionHandler(() {
       setState(() {
         print('Complete');
         ttsState = TtsState.stopped;
       });
     });
 
-    flutterTts.setCancelHandler(() {
+    flutterTts!.setCancelHandler(() {
       setState(() {
         print('Cancel');
         ttsState = TtsState.stopped;
@@ -87,14 +87,14 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
     });
 
     if (isWeb || isIOS) {
-      flutterTts.setPauseHandler(() {
+      flutterTts!.setPauseHandler(() {
         setState(() {
           print('Paused');
           ttsState = TtsState.paused;
         });
       });
 
-      flutterTts.setContinueHandler(() {
+      flutterTts!.setContinueHandler(() {
         setState(() {
           print('Continued');
           ttsState = TtsState.continued;
@@ -102,7 +102,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
       });
     }
 
-    flutterTts.setErrorHandler((msg) {
+    flutterTts!.setErrorHandler((msg) {
       setState(() {
         print('error: $msg');
         ttsState = TtsState.stopped;
@@ -111,12 +111,12 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
   }
 
   Future _getLanguages() async {
-    languages = await flutterTts.getLanguages;
+    languages = await flutterTts!.getLanguages;
     if (languages != null) setState(() => languages);
   }
 
   Future _getEngines() async {
-    var engines = await flutterTts.getEngines;
+    var engines = await flutterTts!.getEngines;
     if (engines != null) {
       for (dynamic engine in engines) {
         print(engine);
@@ -125,20 +125,20 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
   }
 
   Future _speak() async {
-    await flutterTts.setVolume(volume);
-    await flutterTts.setSpeechRate(rate);
-    await flutterTts.setPitch(pitch);
+    await flutterTts!.setVolume(volume!);
+    await flutterTts!.setSpeechRate(rate!);
+    await flutterTts!.setPitch(pitch!);
 
     if (_newVoiceText != null) {
-      if (_newVoiceText.isNotEmpty) {
-        await flutterTts.awaitSpeakCompletion(true);
-        await flutterTts.speak(_newVoiceText);
+      if (_newVoiceText!.isNotEmpty) {
+        await flutterTts!.awaitSpeakCompletion(true);
+        await flutterTts!.speak(_newVoiceText!);
       }
     }
   }
 
   Future _stop() async {
-    var result = await flutterTts.stop();
+    var result = await flutterTts!.stop();
     if (result == 1) setState(() => ttsState = TtsState.stopped);
   }
 
@@ -152,7 +152,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
   @override
   void dispose() {
     super.dispose();
-    flutterTts.stop();
+    flutterTts!.stop();
   }
 
   void _onChange(String text) {
@@ -167,7 +167,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
     var test;
     setState(() {
       test = SelectableText(
-        '${widget.note.notes.toString()}',
+        '${widget.note!.notes.toString()}',
         style: TextStyle(
           fontSize: 18.0,
         ),
@@ -211,7 +211,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
               Container(
                 child: Center(
                   child: Text(
-                    '${widget.note.title}',
+                    '${widget.note!.title}',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
