@@ -6,6 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
+import 'package:note_app/models/user_models.dart';
+import 'package:note_app/providers/change_view_style_provider.dart';
+import 'package:note_app/providers/hide_play_button_provider.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/services/auth.dart';
 import 'package:note_app/src/app.dart';
@@ -35,6 +38,15 @@ void main() async {
         ),
         ChangeNotifierProvider.value(
           value: ThemeProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: ChangeViewStyleProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: HidePlayButtonProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: UserModels(),
         ),
       ],
       child: App(),
