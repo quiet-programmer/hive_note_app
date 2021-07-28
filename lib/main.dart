@@ -45,7 +45,7 @@ void main() async {
         ChangeNotifierProvider.value(
           value: HidePlayButtonProvider(),
         ),
-        ChangeNotifierProvider.value(
+        Provider.value(
           value: UserModels(),
         ),
       ],
