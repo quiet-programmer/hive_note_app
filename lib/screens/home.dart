@@ -140,8 +140,14 @@ class _HomeState extends State<Home> {
             ),
           ),
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.list),
+            onPressed: () {
+              homeViewStyle.checkButtonState();
+            },
+            icon: Icon(
+              homeViewStyle.mChangeViewStyle == false
+                  ? Icons.list
+                  : Icons.grid_view_outlined,
+            ),
           ),
         ],
       ),
@@ -182,111 +188,192 @@ class _HomeState extends State<Home> {
                     valueListenable: storeData!.listenable(),
                     builder: (context, Box<NoteModel> notes, _) {
                       List<int>? keys = notes.keys.cast<int>().toList();
-                      return StaggeredGridView.countBuilder(
-                        physics: NeverScrollableScrollPhysics(),
-                        primary: false,
-                        shrinkWrap: true,
-                        crossAxisCount: 4,
-                        mainAxisSpacing: 8.0,
-                        crossAxisSpacing: 8.0,
-                        addRepaintBoundaries: true,
-                        itemBuilder: (_, index) {
-                          final key = keys[index];
-                          final NoteModel? note = notes.get(key);
-                          timer =
-                              Timer.periodic(Duration(seconds: 60), (timer) {
-                            Map userNotes = {
-                              'key': key,
-                              'title': note!.title,
-                              'noteBody': note.notes,
-                            };
-                            if (user != null && storeData!.isNotEmpty) {
-                              // if(note.title.length < note.notes.length)
-                              DatabaseService(uid: user.uid)
-                                  .uploadNotesToCloud(userNotes, key, context);
-                            }
-                          });
+                      return homeViewStyle.mChangeViewStyle == false
+                          ? StaggeredGridView.countBuilder(
+                              physics: NeverScrollableScrollPhysics(),
+                              primary: false,
+                              shrinkWrap: true,
+                              crossAxisCount: 4,
+                              mainAxisSpacing: 8.0,
+                              crossAxisSpacing: 8.0,
+                              addRepaintBoundaries: true,
+                              itemBuilder: (_, index) {
+                                final key = keys[index];
+                                final NoteModel? note = notes.get(key);
+                                // timer =
+                                //     Timer.periodic(Duration(seconds: 60), (timer) {
+                                //   Map userNotes = {
+                                //     'key': key,
+                                //     'title': note!.title,
+                                //     'noteBody': note.notes,
+                                //   };
+                                //   if (user != null && storeData!.isNotEmpty) {
+                                //     // if(note.title.length < note.notes.length)
+                                //     DatabaseService(uid: user.uid)
+                                //         .uploadNotesToCloud(userNotes, key, context);
+                                //   }
+                                // });
 
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(MySlide(builder: (_) {
-                                return ReadNotesScreen(
-                                  note: note,
-                                  noteKey: key,
-                                );
-                              }));
-                            },
-                            onLongPress: () {
-                              deleteDialog(key);
-                            },
-                            child: note!.title == null
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white38,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0))),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Text(
-                                        '${note.notes}',
-                                        style: TextStyle(),
-                                        softWrap: true,
-                                      ),
-                                    ),
-                                  )
-                                : Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white38,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0))),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.all(8),
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                              color: checkTheme.mTheme == false
-                                                  ? backColor
-                                                  : Colors.grey[900],
-                                            ),
-                                            child: Text(
-                                              note.title == null ||
-                                                      note.title == ''
-                                                  ? 'No Title'
-                                                  : '${note.title}',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              softWrap: true,
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Expanded(
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MySlide(builder: (_) {
+                                      return ReadNotesScreen(
+                                        note: note,
+                                        noteKey: key,
+                                      );
+                                    }));
+                                  },
+                                  onLongPress: () {
+                                    deleteDialog(key);
+                                  },
+                                  child: note!.title == null
+                                      ? Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white38,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
                                             child: Text(
                                               '${note.notes}',
                                               style: TextStyle(),
                                               softWrap: true,
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                          );
-                        },
-                        itemCount: keys.length,
-                        staggeredTileBuilder: (int index) =>
-                            StaggeredTile.count(2, index.isEven ? 2 : 1),
-                      );
+                                        )
+                                      : Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white38,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  padding:
+                                                      const EdgeInsets.all(8),
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                    color: checkTheme.mTheme ==
+                                                            false
+                                                        ? backColor
+                                                        : Colors.grey[900],
+                                                  ),
+                                                  child: Text(
+                                                    note.title == null ||
+                                                            note.title == ''
+                                                        ? 'No Title'
+                                                        : '${note.title}',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    softWrap: true,
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    '${note.notes}',
+                                                    style: TextStyle(),
+                                                    softWrap: true,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                );
+                              },
+                              itemCount: keys.length,
+                              staggeredTileBuilder: (int index) =>
+                                  StaggeredTile.count(2, index.isEven ? 2 : 1),
+                            )
+                          : ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              primary: false,
+                              shrinkWrap: true,
+                              itemCount: keys.length,
+                              itemBuilder: (context, index) {
+                                final key = keys[index];
+                                final NoteModel? note = notes.get(key);
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MySlide(builder: (_) {
+                                      return ReadNotesScreen(
+                                        note: note,
+                                        noteKey: key,
+                                      );
+                                    }));
+                                  },
+                                  onLongPress: () {
+                                    deleteDialog(key);
+                                  },
+                                  child: note!.title == null
+                                      ? Column(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white38,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0),
+                                                ),
+                                              ),
+                                              child: ListTile(
+                                                title: Text(
+                                                  '${note.notes}',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 7,
+                                            ),
+                                          ],
+                                        )
+                                      : Column(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white38,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0),
+                                                ),
+                                              ),
+                                              child: ListTile(
+                                                title: Text(
+                                                  note.title == null ||
+                                                          note.title == ''
+                                                      ? 'No Title'
+                                                      : '${note.title}',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 7,
+                                            ),
+                                          ],
+                                        ),
+                                );
+                              },
+                            );
                     },
                   ),
                 ),
