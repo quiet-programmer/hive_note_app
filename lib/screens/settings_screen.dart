@@ -64,8 +64,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               height: 10,
                             ),
                             Text(
-                              'What VNotes is all about',
+                              'VNotes is a simple lite Note taking app, here to make Note taking easy.',
                               style: TextStyle(),
+                              textAlign: TextAlign.center,
                             )
                           ],
                         ),
@@ -123,11 +124,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           style: TextStyle(),
                         ),
                         subtitle: Text(
-                          'All you need is to sign in with your Google account',
+                          'All you need is to sign in with your Google account \n(not available yet)',
                           style: TextStyle(),
                         ),
                         onTap: () {
-                          _authService.signUpWithGoogle(context);
+                          // _authService.signUpWithGoogle(context);
                         },
                       ),
                       SizedBox(
@@ -140,7 +141,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           style: TextStyle(),
                         ),
                         subtitle: Text(
-                          'All you need to know about what is going on when you signin',
+                          'All you need to know about what is going on when you signin \n(not available yet)',
                           style: TextStyle(),
                         ),
                         onTap: () {
@@ -157,7 +158,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           style: TextStyle(),
                         ),
                         subtitle: Text(
-                          'Request for all your notes to be deleted from cloud',
+                          'Request for all your notes to be deleted from cloud \n(not available yet)',
                           style: TextStyle(),
                         ),
                         onTap: () {},
@@ -174,7 +175,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           style: TextStyle(),
                         ),
                         subtitle: Text(
-                          'Sign out from cloud storage',
+                          'Sign out from cloud storage \n(not available yet)',
                           style: TextStyle(),
                         ),
                         onTap: () {
