@@ -6,7 +6,8 @@
 
 <p> Any contribution will be accepted if it meets what is needed, Thanks. </p>
 
-<h1> If you this error "Google Service Json Not Found"</h1>
+<h1> If you see this error "Google Service Json Not Found"</h1>
+<h3 style="color:red;"> Please delete pubspec.lock if you are having some issues and if you want to make a pull request, please ignore pubspec.lock Thanks</h3>
 <p>Please if you cloned the repo and have error saying, "Google Service json file not found, you need to create a firebase project and add in the Android App Project folder"</p>
 
 ## Plugin's Used
