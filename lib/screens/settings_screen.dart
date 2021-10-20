@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:note_app/providers/hide_play_button_provider.dart';
 import 'package:note_app/providers/theme_provider.dart';
-import 'package:note_app/services/auth.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +12,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final AuthService _authService = AuthService();
   String? appName;
   String? packageName;
   String? version;
@@ -178,9 +176,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           'Sign out from cloud storage \n(not available yet)',
                           style: TextStyle(),
                         ),
-                        onTap: () {
-                          _authService.signUserOut();
-                        },
+                        onTap: () {},
                       ),
                     ],
                   ),
