@@ -105,7 +105,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final checkTheme = Provider.of<ThemeProvider>(context);
-    final user = Provider.of<UserModels>(context);
     final homeViewStyle = Provider.of<ChangeViewStyleProvider>(context);
     Upgrader().clearSavedSettings();
     final config = AppcastConfiguration(
@@ -200,20 +199,6 @@ class _HomeState extends State<Home> {
                               itemBuilder: (_, index) {
                                 final key = keys[index];
                                 final NoteModel? note = notes.get(key);
-                                // timer =
-                                //     Timer.periodic(Duration(seconds: 60), (timer) {
-                                //   Map userNotes = {
-                                //     'key': key,
-                                //     'title': note!.title,
-                                //     'noteBody': note.notes,
-                                //   };
-                                //   if (user != null && storeData!.isNotEmpty) {
-                                //     // if(note.title.length < note.notes.length)
-                                //     DatabaseService(uid: user.uid)
-                                //         .uploadNotesToCloud(userNotes, key, context);
-                                //   }
-                                // });
-
                                 return GestureDetector(
                                   onTap: () {
                                     Navigator.of(context)

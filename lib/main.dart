@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -10,14 +9,12 @@ import 'package:note_app/models/user_models.dart';
 import 'package:note_app/providers/change_view_style_provider.dart';
 import 'package:note_app/providers/hide_play_button_provider.dart';
 import 'package:note_app/providers/theme_provider.dart';
-import 'package:note_app/services/auth.dart';
 import 'package:note_app/src/app.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   Directory document = await getApplicationDocumentsDirectory();
   Hive
     ..init(document.path)
@@ -32,10 +29,6 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        StreamProvider.value(
-          value: AuthService().user,
-          initialData: null,
-        ),
         ChangeNotifierProvider.value(
           value: ThemeProvider(),
         ),
@@ -45,9 +38,9 @@ void main() async {
         ChangeNotifierProvider.value(
           value: HidePlayButtonProvider(),
         ),
-        Provider.value(
-          value: UserModels(),
-        ),
+        // Provider.value(
+        //   value: UserModels(),
+        // ),
       ],
       child: App(),
     ),

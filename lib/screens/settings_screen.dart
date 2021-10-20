@@ -124,7 +124,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           style: TextStyle(),
                         ),
                         subtitle: Text(
-                          'All you need is to sign in with your Google account \n(not available yet)',
+                          'You will have to create an account with us \n(not available yet)',
                           style: TextStyle(),
                         ),
                         onTap: () {
