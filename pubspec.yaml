@@ -34,8 +34,8 @@ dependencies:
   provider: ^5.0.0
   shared_preferences: ^2.0.6
   text_style_editor: ^1.1.1
-  upgrader: ^3.4.0
   fluttertoast: ^8.0.7
+  new_version: ^0.2.3
 
 dev_dependencies:
   flutter_test:

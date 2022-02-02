@@ -1,4 +1,4 @@
-name: Build VNotes Android APK
+name: Build V Notes Android APK
 on:
   push:
     branches:
