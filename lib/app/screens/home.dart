@@ -142,7 +142,7 @@ class _HomeState extends State<Home> {
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MySlide(builder: (_) {
-                  return CreateNoteScreen();
+                  return const CreateNoteScreen();
                 }));
               },
               icon: const Icon(
@@ -152,7 +152,7 @@ class _HomeState extends State<Home> {
           IconButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                return SettingsScreen();
+                return const SettingsScreen();
               }));
             },
             icon: const Icon(
@@ -176,7 +176,7 @@ class _HomeState extends State<Home> {
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MySlide(builder: (_) {
-                  return CreateNoteScreen();
+                  return const CreateNoteScreen();
                 }));
               },
               backgroundColor: Colors.white60,
