@@ -21,6 +21,7 @@ Color? cardColor = Colors.grey[850];
 // Hive details
 const String noteBox = 'notebox';
 const String appHiveKey = 'state';
+const String deleteNote = 'deleteNote';
 
 const String appCast =
     'https://condescending-euler-c20d1c.netlify.app/index.xml';

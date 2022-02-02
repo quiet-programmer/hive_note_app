@@ -176,7 +176,7 @@ class _HomeState extends State<Home> {
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MySlide(builder: (_) {
-                  return CreateNoteScreen();
+                  return const CreateNoteScreen();
                 }));
               },
               backgroundColor: Colors.white60,
