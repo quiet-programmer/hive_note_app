@@ -36,6 +36,7 @@ dependencies:
   text_style_editor: ^1.1.1
   fluttertoast: ^8.0.7
   new_version: ^0.2.3
+  logger: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -43,7 +44,7 @@ dev_dependencies:
   build_runner: 
   change_app_package_name: 
   hive_generator: ^1.0.0
-  pedantic: ^1.0.0
+  flutter_lints: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

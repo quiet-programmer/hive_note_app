@@ -4,15 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
+import 'package:note_app/app/screens/home.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/theme_provider.dart';
-import 'package:note_app/screens/home.dart';
+import 'package:note_app/utils/slide_transition.dart';
 import 'package:provider/provider.dart';
 
-import '../utils/slide_transition.dart';
 
 class CreateNoteScreen extends StatefulWidget {
+  const CreateNoteScreen({Key? key}) : super(key: key);
   @override
   _CreateNoteScreenState createState() => _CreateNoteScreenState();
 }
@@ -35,7 +36,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   void initState() {
     super.initState();
     storeData = Hive.box<NoteModel>(noteBox);
-    myTextStyle = TextStyle(
+    myTextStyle = const TextStyle(
       fontSize: 18.5,
     );
     myTextAlign = TextAlign.left;
@@ -50,7 +51,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
 
   Future<bool> checkIfNoteIsNotEmptyWhenGoingBack() async {
     if (_noteText.text.isNotEmpty || _noteTitle.text.isNotEmpty) {
-      print('save the note');
       final String noteTitle = _noteTitle.text;
       final String note = _noteText.text;
       NoteModel noteM = NoteModel(
@@ -64,18 +64,17 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       );
       Navigator.of(context).pop();
       await Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        return Home();
+        return const Home();
       }));
       _isNotEmpty = true;
     } else {
-      print('text was not save');
       await Fluttertoast.showToast(
         msg: 'Note was empty, nothing was saved',
         toastLength: Toast.LENGTH_SHORT,
       );
       Navigator.of(context).pop();
       await Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        return Home();
+        return const Home();
       }));
       _isNotEmpty = false;
     }
@@ -103,7 +102,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       );
       Navigator.of(context).pop();
       Navigator.of(context).push(MySlide(builder: (_) {
-        return Home();
+        return const Home();
       }));
     }
   }
@@ -120,13 +119,13 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
           // used a text form field for the app bar
           leading: Platform.isIOS
               ? IconButton(
-                  icon: Icon(CupertinoIcons.back),
+                  icon: const Icon(CupertinoIcons.back),
                   onPressed: checkIfNoteIsNotEmptyWhenGoingBack)
               : null,
           title: TextFormField(
             autofocus: true,
             controller: _noteTitle,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: 'Create Note Title...',
               hintStyle: TextStyle(
                 fontSize: 20,
@@ -134,7 +133,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               ),
               border: InputBorder.none,
             ),
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -171,10 +170,10 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: TextField(
               controller: _noteText,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Type Note...',
                 hintStyle: TextStyle(),
                 border: InputBorder.none,

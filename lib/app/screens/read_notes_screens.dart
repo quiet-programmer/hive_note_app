@@ -1,9 +1,10 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
+import 'package:note_app/app/screens/edit_note_screen.dart';
+import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/hide_play_button_provider.dart';
-import 'package:note_app/screens/edit_note_screen.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -13,7 +14,7 @@ class ReadNotesScreen extends StatefulWidget {
   final NoteModel? note;
   final int? noteKey;
 
-  ReadNotesScreen({
+  const ReadNotesScreen({
     Key? key,
     @required this.note,
     @required this.noteKey,
@@ -43,7 +44,9 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
   TtsState ttsState = TtsState.stopped;
 
   bool get isIOS => !kIsWeb && Platform.isIOS;
+
   bool get isAndroid => !kIsWeb && Platform.isAndroid;
+
   bool get isWeb => kIsWeb;
 
   @override
@@ -67,21 +70,21 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
 
     flutterTts!.setStartHandler(() {
       setState(() {
-        print('Playing');
+        logger.i('Playing');
         ttsState = TtsState.playing;
       });
     });
 
     flutterTts!.setCompletionHandler(() {
       setState(() {
-        print('Complete');
+        logger.i('Complete');
         ttsState = TtsState.stopped;
       });
     });
 
     flutterTts!.setCancelHandler(() {
       setState(() {
-        print('Cancel');
+        logger.i('Cancel');
         ttsState = TtsState.stopped;
       });
     });
@@ -89,14 +92,14 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
     if (isWeb || isIOS) {
       flutterTts!.setPauseHandler(() {
         setState(() {
-          print('Paused');
+          logger.i('Paused');
           ttsState = TtsState.paused;
         });
       });
 
       flutterTts!.setContinueHandler(() {
         setState(() {
-          print('Continued');
+          logger.i('Continued');
           ttsState = TtsState.continued;
         });
       });
@@ -104,7 +107,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
 
     flutterTts!.setErrorHandler((msg) {
       setState(() {
-        print('error: $msg');
+        logger.i('error: $msg');
         ttsState = TtsState.stopped;
       });
     });
@@ -119,7 +122,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
     var engines = await flutterTts!.getEngines;
     if (engines != null) {
       for (dynamic engine in engines) {
-        print(engine);
+        logger.i(engine);
       }
     }
   }
@@ -164,11 +167,11 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
   final bool isEditing = true;
 
   Widget showText() {
-    var test;
+    dynamic test;
     setState(() {
       test = SelectableText(
-        '${widget.note!.notes.toString()}',
-        style: TextStyle(
+        widget.note!.notes.toString(),
+        style: const TextStyle(
           fontSize: 18.0,
         ),
       );
@@ -181,7 +184,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
     final checkButtonState = Provider.of<HidePlayButtonProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Read Note',
         ),
         shadowColor: Colors.transparent,
@@ -189,7 +192,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.mode_edit),
+            icon: const Icon(Icons.mode_edit),
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(MySlide(builder: (_) {
@@ -204,15 +207,15 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 child: Center(
                   child: Text(
                     '${widget.note!.title}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -221,7 +224,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               showText(),

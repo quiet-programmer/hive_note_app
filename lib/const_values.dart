@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger();
 
 const Color backColor = Color.fromRGBO(224, 211, 175, 1);
 

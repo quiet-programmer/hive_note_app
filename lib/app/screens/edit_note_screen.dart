@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
+import 'package:note_app/app/screens/read_notes_screens.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/theme_provider.dart';
-import 'package:note_app/screens/read_notes_screens.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +12,7 @@ class EditNoteScreen extends StatefulWidget {
   final NoteModel? notes;
   final int? noteKey;
 
-  EditNoteScreen({key, @required this.notes, @required this.noteKey})
+  const EditNoteScreen({key, @required this.notes, @required this.noteKey})
       : super(key: key);
   @override
   _EditNoteScreenState createState() => _EditNoteScreenState();
@@ -26,7 +26,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   TextStyle? myTextStyle;
   TextAlign? myTextAlign;
 
-  var coText;
+  dynamic coText;
   var _initValue = {'notes': '', 'conText': ''};
 
   var _isInit = true;
@@ -49,7 +49,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   void initState() {
     super.initState();
     storeData = Hive.box<NoteModel>(noteBox);
-    myTextStyle = TextStyle(
+    myTextStyle = const TextStyle(
       fontSize: 18.5,
     );
     myTextAlign = TextAlign.left;
@@ -98,7 +98,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
           onChanged: (val) {
             _initValue['title'] = val;
           },
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Create Note Title...',
             hintStyle: TextStyle(
               fontSize: 20,
@@ -106,7 +106,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
             ),
             border: InputBorder.none,
           ),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -164,14 +164,14 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: TextFormField(
           initialValue: _initValue['notes'],
           autofocus: true,
           onChanged: (value) {
             _initValue['notes'] = value;
           },
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: InputBorder.none,
           ),
           focusNode: goToNotes,

@@ -7,6 +7,8 @@ import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
+
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -36,21 +38,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final checkButtonState = Provider.of<HidePlayButtonProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('App Settings'),
+        title: const Text('App Settings'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Center(
-          child: Container(
+          child: SizedBox(
             child: Column(
               children: [
                 SingleChildScrollView(
                   child: Column(
                     children: [
                       //Body here
-                      Container(
+                      SizedBox(
                         child: Column(
-                          children: [
+                          children: const [
                             Text(
                               'VNotes',
                               style: TextStyle(
@@ -69,22 +71,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Divider(),
-                      SizedBox(
+                      const Divider(),
+                      const SizedBox(
                         height: 10,
                       ),
                       ListTile(
                         leading: Icon(checkTheme.mTheme == false
                             ? Icons.brightness_3
                             : Icons.brightness_6),
-                        title: Text(
+                        title: const Text(
                           'Enable Dark Theme',
                           style: TextStyle(),
                         ),
-                        subtitle: Text('Not working right now'),
+                        subtitle: const Text('Not working right now'),
                         trailing: Switch(
                           value: checkTheme.mTheme,
                           onChanged: (val) {
@@ -92,16 +94,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       ListTile(
-                        leading: Icon(Icons.play_arrow),
-                        title: Text(
+                        leading: const Icon(Icons.play_arrow),
+                        title: const Text(
                           'Hide Play Button',
                           style: TextStyle(),
                         ),
-                        subtitle: Text(
+                        subtitle: const Text(
                           'This will disable or hide the play '
                           'in the read note screen',
                         ),
@@ -112,16 +114,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       ListTile(
-                        leading: Icon(Icons.cloud_upload),
-                        title: Text(
+                        leading: const Icon(Icons.cloud_upload),
+                        title: const Text(
                           'Enable Cloud Storage',
                           style: TextStyle(),
                         ),
-                        subtitle: Text(
+                        subtitle: const Text(
                           'You will have to create an account with us \n(not available yet)',
                           style: TextStyle(),
                         ),
@@ -129,16 +131,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           // _authService.signUpWithGoogle(context);
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       ListTile(
-                        leading: Icon(Icons.help_center_outlined),
-                        title: Text(
+                        leading: const Icon(Icons.help_center_outlined),
+                        title: const Text(
                           'How the Cloud Storage works',
                           style: TextStyle(),
                         ),
-                        subtitle: Text(
+                        subtitle: const Text(
                           'All you need to know about what is going on when you signin \n(not available yet)',
                           style: TextStyle(),
                         ),
@@ -146,33 +148,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           // show a dialog or bottom panel sheet
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       ListTile(
-                        leading: Icon(Icons.delete),
-                        title: Text(
+                        leading: const Icon(Icons.delete),
+                        title: const Text(
                           'Delete all data from cloud',
                           style: TextStyle(),
                         ),
-                        subtitle: Text(
+                        subtitle: const Text(
                           'Request for all your notes to be deleted from cloud \n(not available yet)',
                           style: TextStyle(),
                         ),
                         onTap: () {},
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       ListTile(
-                        leading: Icon(
+                        leading: const Icon(
                           Icons.logout,
                         ),
-                        title: Text(
+                        title: const Text(
                           'Sign Out',
                           style: TextStyle(),
                         ),
-                        subtitle: Text(
+                        subtitle: const Text(
                           'Sign out from cloud storage \n(not available yet)',
                           style: TextStyle(),
                         ),
