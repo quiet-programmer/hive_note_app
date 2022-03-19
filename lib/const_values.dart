@@ -22,9 +22,3 @@ Color? cardColor = Colors.grey[850];
 const String noteBox = 'notebox';
 const String appHiveKey = 'state';
 const String deleteNote = 'deleteNote';
-<<<<<<< HEAD
-
-const String appCast =
-    'https://condescending-euler-c20d1c.netlify.app/index.xml';
-=======
->>>>>>> 9ba25bf3ebf191f066c99d29ad0bef4c99386f64
