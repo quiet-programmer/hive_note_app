@@ -10,8 +10,12 @@ class NoteModel {
   @HiveField(1)
   final String? notes;
 
+  @HiveField(2)
+  final String? dateTime;
+
   NoteModel({
     this.title,
     this.notes,
+    this.dateTime,
   });
 }

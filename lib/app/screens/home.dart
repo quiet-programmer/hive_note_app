@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:new_version/new_version.dart';
 import 'package:note_app/app/screens/read_notes_screens.dart';
 import 'package:note_app/app/screens/settings_screen.dart';
@@ -49,7 +50,7 @@ class _HomeState extends State<Home> {
       androidId: 'com.viewus.v_notes',
     );
     final status = await newVersion.getVersionStatus();
-    if (status!.localVersion != status.storeVersion) {
+    if (status!.canUpdate) {
       newVersion.showUpdateDialog(
           context: context,
           versionStatus: status,
@@ -77,24 +78,22 @@ class _HomeState extends State<Home> {
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      'No',
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
                       storeData!.delete(key);
                       Navigator.of(context).pop();
                       setState(() {});
                     },
                     child: const Text(
                       'Yes',
-                      style: TextStyle(),
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'No',
-                      style: TextStyle(),
-                    ),
-                  )
                 ],
               )
             : CupertinoAlertDialog(
@@ -171,6 +170,7 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Platform.isAndroid
           ? FloatingActionButton(
               onPressed: () {
@@ -179,19 +179,33 @@ class _HomeState extends State<Home> {
                   return const CreateNoteScreen();
                 }));
               },
-              backgroundColor: Colors.white60,
+              backgroundColor: backColor,
+              tooltip: 'Add Note',
               child: const Icon(
                 Icons.add,
               ),
             )
           : null,
       body: storeData!.isEmpty
-          ? const Center(
-              child: Text(
-                'No Notes Yet...',
-                style: TextStyle(
-                  fontSize: 18.0,
-                ),
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    'No Notes Yet... \n(Tap on the Add Button below)',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Icon(
+                    Icons.arrow_downward_sharp,
+                    size: 60,
+                  )
+                ],
               ),
             )
           : SingleChildScrollView(
@@ -202,17 +216,26 @@ class _HomeState extends State<Home> {
                   builder: (context, Box<NoteModel> notes, _) {
                     List<int>? keys = notes.keys.cast<int>().toList();
                     return homeViewStyle.mChangeViewStyle == false
-                        ? StaggeredGridView.countBuilder(
+                        ? MasonryGridView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             primary: false,
                             shrinkWrap: true,
-                            crossAxisCount: 4,
                             mainAxisSpacing: 8.0,
                             crossAxisSpacing: 8.0,
                             addRepaintBoundaries: true,
+                            itemCount: keys.length,
+                            gridDelegate:
+                                const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                            ),
                             itemBuilder: (_, index) {
                               final key = keys[index];
                               final NoteModel? note = notes.get(key);
+                              DateTime convertedDate =
+                                  DateTime.parse('${note!.dateTime}');
+                              var noteDate = DateFormat.yMMMd()
+                                  .add_jm()
+                                  .format(convertedDate);
                               return GestureDetector(
                                 onTap: () {
                                   Navigator.of(context)
@@ -226,7 +249,7 @@ class _HomeState extends State<Home> {
                                 onLongPress: () {
                                   deleteDialog(key);
                                 },
-                                child: note!.title == null
+                                child: note.title == null
                                     ? Container(
                                         decoration: const BoxDecoration(
                                             color: Colors.white38,
@@ -249,6 +272,7 @@ class _HomeState extends State<Home> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(16.0),
                                           child: Column(
+                                            mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
@@ -279,11 +303,27 @@ class _HomeState extends State<Home> {
                                               const SizedBox(
                                                 height: 10,
                                               ),
-                                              Expanded(
-                                                child: Text(
-                                                  '${note.notes}',
-                                                  style: const TextStyle(),
-                                                  softWrap: true,
+                                              Flexible(
+                                                fit: FlexFit.loose,
+                                                child: Column(
+                                                  children: [
+                                                    Text(
+                                                      '${note.notes!.length >= 70 ? note.notes!.substring(0, 70) + '...' : note.notes}',
+                                                      style: const TextStyle(),
+                                                      softWrap: true,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Text(
+                                                      noteDate,
+                                                      style: const TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 14,
+                                                      ),
+                                                      softWrap: true,
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ],
@@ -292,9 +332,7 @@ class _HomeState extends State<Home> {
                                       ),
                               );
                             },
-                            itemCount: keys.length,
-                            staggeredTileBuilder: (int index) =>
-                                StaggeredTile.count(2, index.isEven ? 2 : 1),
+                            // staggeredTileBuilder: (int index) => StaggeredTile.count(2, index.isEven ? 2 : 1),
                           )
                         : ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
@@ -304,6 +342,11 @@ class _HomeState extends State<Home> {
                             itemBuilder: (context, index) {
                               final key = keys[index];
                               final NoteModel? note = notes.get(key);
+                              DateTime convertedDate =
+                                  DateTime.parse('${note!.dateTime}');
+                              var noteDate = DateFormat.yMMMd()
+                                  .add_jm()
+                                  .format(convertedDate);
                               return GestureDetector(
                                 onTap: () {
                                   Navigator.of(context)
@@ -317,7 +360,7 @@ class _HomeState extends State<Home> {
                                 onLongPress: () {
                                   deleteDialog(key);
                                 },
-                                child: note!.title == null
+                                child: note.title == null
                                     ? Column(
                                         children: [
                                           Container(
@@ -361,6 +404,30 @@ class _HomeState extends State<Home> {
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20,
                                                 ),
+                                              ),
+                                              subtitle: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '${note.notes!.length >= 70 ? note.notes!.substring(0, 70) + '...' : note.notes}',
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                    softWrap: true,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    noteDate,
+                                                    style: const TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 14,
+                                                    ),
+                                                    softWrap: true,
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),

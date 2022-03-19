@@ -118,6 +118,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         height: 10,
                       ),
                       ListTile(
+                        leading: const Icon(Icons.delete),
+                        title: const Text(
+                          'Trash',
+                          style: TextStyle(),
+                        ),
+                        subtitle: const Text(
+                          'You can recover any note you delete and'
+                              ' also delete them permanently',
+                          style: TextStyle(),
+                        ),
+                        onTap: () {
+                          // _authService.signUpWithGoogle(context);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ListTile(
                         leading: const Icon(Icons.cloud_upload),
                         title: const Text(
                           'Enable Cloud Storage',
