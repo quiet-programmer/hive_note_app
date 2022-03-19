@@ -28,12 +28,21 @@ ThemeData buildLightTheme() => ThemeData.light().copyWith(
         shadowColor: Colors.transparent,
         color: Colors.transparent,
         titleTextStyle: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
         iconTheme: IconThemeData(
           color: Colors.grey[900],
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: ButtonStyle(
+          textStyle: MaterialStateProperty.resolveWith(
+            (states) => const TextStyle(
+              color: defaultBlack,
+            ),
+          ),
         ),
       ),
       dialogBackgroundColor: backColor,
@@ -73,13 +82,22 @@ ThemeData buildDarkTheme() => ThemeData.dark().copyWith(
         centerTitle: true,
         elevation: 0.0,
         titleTextStyle: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
         color: Colors.grey[900],
         iconTheme: IconThemeData(
           color: Colors.grey[400],
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: ButtonStyle(
+          textStyle: MaterialStateProperty.resolveWith(
+            (states) => const TextStyle(
+              color: defaultBlack,
+            ),
+          ),
         ),
       ),
       textTheme: Typography.whiteCupertino,
