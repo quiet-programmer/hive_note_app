@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:note_app/app/screens/trash_screen/trashed_notes.dart';
 import 'package:note_app/providers/hide_play_button_provider.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:package_info/package_info.dart';
@@ -129,7 +130,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           style: TextStyle(),
                         ),
                         onTap: () {
-                          // _authService.signUpWithGoogle(context);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                            return const TrashedNotes();
+                          }));
                         },
                       ),
                       const SizedBox(

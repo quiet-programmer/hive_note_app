@@ -19,6 +19,7 @@ void main() async {
     ..init(document.path)
     ..registerAdapter(NoteModelAdapter());
   await Hive.openBox<NoteModel>(noteBox);
+  await Hive.openBox<NoteModel>(deletedNotes);
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

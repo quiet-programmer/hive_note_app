@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -29,20 +28,19 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Box<NoteModel>? storeData;
-
-  Timer? timer;
+  Box<NoteModel>? deletedData;
 
   @override
   void initState() {
     super.initState();
     storeData = Hive.box<NoteModel>(noteBox);
+    deletedData = Hive.box<NoteModel>(deletedNotes);
     _checkVersion();
   }
 
   @override
   void dispose() {
     super.dispose();
-    timer?.cancel();
   }
 
   void _checkVersion() async {
@@ -66,7 +64,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void deleteDialog(key) {
+  void deleteDialog(key, NoteModel note, noteDate) {
     showDialog(
       context: context,
       builder: (_) {
@@ -86,6 +84,12 @@ class _HomeState extends State<Home> {
                   ),
                   TextButton(
                     onPressed: () {
+                      NoteModel noteToDelete = NoteModel(
+                        title: note.title,
+                        notes: note.notes,
+                        dateTime: noteDate,
+                      );
+                      deletedData!.add(noteToDelete);
                       storeData!.delete(key);
                       Navigator.of(context).pop();
                       setState(() {});
@@ -183,6 +187,7 @@ class _HomeState extends State<Home> {
               tooltip: 'Add Note',
               child: const Icon(
                 Icons.add,
+                color: defaultBlack,
               ),
             )
           : null,
@@ -232,7 +237,7 @@ class _HomeState extends State<Home> {
                               final key = keys[index];
                               final NoteModel? note = notes.get(key);
                               DateTime convertedDate =
-                                  DateTime.parse('${note!.dateTime}');
+                                  DateTime.parse(note!.dateTime ?? '');
                               var noteDate = DateFormat.yMMMd()
                                   .add_jm()
                                   .format(convertedDate);
@@ -247,7 +252,7 @@ class _HomeState extends State<Home> {
                                   }));
                                 },
                                 onLongPress: () {
-                                  deleteDialog(key);
+                                  deleteDialog(key, note, noteDate);
                                 },
                                 child: note.title == null
                                     ? Container(
@@ -342,8 +347,8 @@ class _HomeState extends State<Home> {
                             itemBuilder: (context, index) {
                               final key = keys[index];
                               final NoteModel? note = notes.get(key);
-                              DateTime convertedDate =
-                                  DateTime.parse('${note!.dateTime}');
+                              // DateFormat mFormat = DateFormat.yMMMd().add_jm();
+                              DateTime convertedDate = DateTime.parse('${note!.dateTime}');
                               var noteDate = DateFormat.yMMMd()
                                   .add_jm()
                                   .format(convertedDate);
@@ -358,7 +363,7 @@ class _HomeState extends State<Home> {
                                   }));
                                 },
                                 onLongPress: () {
-                                  deleteDialog(key);
+                                  deleteDialog(key, note, noteDate);
                                 },
                                 child: note.title == null
                                     ? Column(
