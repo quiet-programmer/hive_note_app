@@ -317,17 +317,17 @@ class _HomeState extends State<Home> {
                                                       style: const TextStyle(),
                                                       softWrap: true,
                                                     ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Text(
-                                                      noteDate,
-                                                      style: const TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 14,
-                                                      ),
-                                                      softWrap: true,
-                                                    ),
+                                                    // const SizedBox(
+                                                    //   height: 10,
+                                                    // ),
+                                                    // Text(
+                                                    //   noteDate,
+                                                    //   style: const TextStyle(
+                                                    //     color: Colors.grey,
+                                                    //     fontSize: 14,
+                                                    //   ),
+                                                    //   softWrap: true,
+                                                    // ),
                                                   ],
                                                 ),
                                               ),
@@ -421,17 +421,17 @@ class _HomeState extends State<Home> {
                                                     ),
                                                     softWrap: true,
                                                   ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    noteDate,
-                                                    style: const TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 14,
-                                                    ),
-                                                    softWrap: true,
-                                                  ),
+                                                  // const SizedBox(
+                                                  //   height: 10,
+                                                  // ),
+                                                  // Text(
+                                                  //   noteDate,
+                                                  //   style: const TextStyle(
+                                                  //     color: Colors.grey,
+                                                  //     fontSize: 14,
+                                                  //   ),
+                                                  //   softWrap: true,
+                                                  // ),
                                                 ],
                                               ),
                                             ),

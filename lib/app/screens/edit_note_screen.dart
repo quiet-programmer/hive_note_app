@@ -135,7 +135,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                 NoteModel noteM = NoteModel(
                   title: title!,
                   notes: note!,
-                  dateTime: DateTime.now().toString(),
+                  // dateTime: DateTime.now().toString(),
                 );
                 storeData!.put(key, noteM);
                 Fluttertoast.showToast(

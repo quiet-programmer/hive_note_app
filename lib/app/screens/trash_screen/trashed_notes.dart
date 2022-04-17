@@ -194,17 +194,17 @@ class _TrashedNotesState extends State<TrashedNotes> {
                                               ),
                                               softWrap: true,
                                             ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              '${note.dateTime}',
-                                              style: const TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 14,
-                                              ),
-                                              softWrap: true,
-                                            ),
+                                            // const SizedBox(
+                                            //   height: 10,
+                                            // ),
+                                            // Text(
+                                            //   '${note.dateTime}',
+                                            //   style: const TextStyle(
+                                            //     color: Colors.grey,
+                                            //     fontSize: 14,
+                                            //   ),
+                                            //   softWrap: true,
+                                            // ),
                                           ],
                                         ),
                                       ),

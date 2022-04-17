@@ -56,7 +56,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       NoteModel noteM = NoteModel(
         title: noteTitle,
         notes: note,
-        dateTime: DateTime.now().toString(),
+        // dateTime: DateTime.now().toString(),
       );
       await storeData!.add(noteM);
       await Fluttertoast.showToast(
@@ -95,7 +95,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       NoteModel noteM = NoteModel(
         title: noteTitle,
         notes: note,
-        dateTime: DateTime.now().toString(),
+        // dateTime: DateTime.now().toString(),
       );
       storeData!.add(noteM);
       Fluttertoast.showToast(
