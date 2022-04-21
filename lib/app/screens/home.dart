@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void deleteDialog(key, NoteModel note, noteDate) {
+  void deleteDialog(key, NoteModel note) {
     showDialog(
       context: context,
       builder: (_) {
@@ -87,7 +87,6 @@ class _HomeState extends State<Home> {
                       NoteModel noteToDelete = NoteModel(
                         title: note.title,
                         notes: note.notes,
-                        dateTime: noteDate,
                       );
                       deletedData!.add(noteToDelete);
                       storeData!.delete(key);
@@ -236,11 +235,6 @@ class _HomeState extends State<Home> {
                             itemBuilder: (_, index) {
                               final key = keys[index];
                               final NoteModel? note = notes.get(key);
-                              DateTime convertedDate =
-                                  DateTime.parse(note!.dateTime ?? '');
-                              var noteDate = DateFormat.yMMMd()
-                                  .add_jm()
-                                  .format(convertedDate);
                               return GestureDetector(
                                 onTap: () {
                                   Navigator.of(context)
@@ -252,9 +246,9 @@ class _HomeState extends State<Home> {
                                   }));
                                 },
                                 onLongPress: () {
-                                  deleteDialog(key, note, noteDate);
+                                  deleteDialog(key, note!);
                                 },
-                                child: note.title == null
+                                child: note!.title == null
                                     ? Container(
                                         decoration: const BoxDecoration(
                                             color: Colors.white38,
@@ -317,17 +311,6 @@ class _HomeState extends State<Home> {
                                                       style: const TextStyle(),
                                                       softWrap: true,
                                                     ),
-                                                    // const SizedBox(
-                                                    //   height: 10,
-                                                    // ),
-                                                    // Text(
-                                                    //   noteDate,
-                                                    //   style: const TextStyle(
-                                                    //     color: Colors.grey,
-                                                    //     fontSize: 14,
-                                                    //   ),
-                                                    //   softWrap: true,
-                                                    // ),
                                                   ],
                                                 ),
                                               ),
@@ -347,11 +330,6 @@ class _HomeState extends State<Home> {
                             itemBuilder: (context, index) {
                               final key = keys[index];
                               final NoteModel? note = notes.get(key);
-                              // DateFormat mFormat = DateFormat.yMMMd().add_jm();
-                              DateTime convertedDate = DateTime.parse('${note!.dateTime}');
-                              var noteDate = DateFormat.yMMMd()
-                                  .add_jm()
-                                  .format(convertedDate);
                               return GestureDetector(
                                 onTap: () {
                                   Navigator.of(context)
@@ -363,9 +341,9 @@ class _HomeState extends State<Home> {
                                   }));
                                 },
                                 onLongPress: () {
-                                  deleteDialog(key, note, noteDate);
+                                  deleteDialog(key, note!);
                                 },
-                                child: note.title == null
+                                child: note!.title == null
                                     ? Column(
                                         children: [
                                           Container(

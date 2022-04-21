@@ -48,7 +48,6 @@ class _TrashedNotesState extends State<TrashedNotes> {
                       NoteModel noteToRecover = NoteModel(
                         title: note!.title,
                         notes: note.notes,
-                        dateTime: DateTime.now().toString(),
                       );
                       storeData!.add(noteToRecover);
                       deletedData!.delete(key);
@@ -194,17 +193,6 @@ class _TrashedNotesState extends State<TrashedNotes> {
                                               ),
                                               softWrap: true,
                                             ),
-                                            // const SizedBox(
-                                            //   height: 10,
-                                            // ),
-                                            // Text(
-                                            //   '${note.dateTime}',
-                                            //   style: const TextStyle(
-                                            //     color: Colors.grey,
-                                            //     fontSize: 14,
-                                            //   ),
-                                            //   softWrap: true,
-                                            // ),
                                           ],
                                         ),
                                       ),
