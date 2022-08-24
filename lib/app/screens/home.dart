@@ -3,44 +3,39 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_paystack_payment/flutter_paystack_payment.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:new_version/new_version.dart';
-import 'package:note_app/app/screens/read_notes_screens.dart';
+import 'package:note_app/app/screens/local_notes/local_notes.dart';
 import 'package:note_app/app/screens/settings_screen.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
-import 'package:note_app/providers/change_view_style_provider.dart';
 import 'package:note_app/providers/theme_provider.dart';
+import 'package:note_app/utils/greetings.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:provider/provider.dart';
 
-import 'create_note_screen.dart';
+import 'local_notes/create_note_screen.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   Box<NoteModel>? storeData;
-  Box<NoteModel>? deletedData;
+  final plugin = PaystackPayment();
 
   @override
   void initState() {
     super.initState();
     storeData = Hive.box<NoteModel>(noteBox);
-    deletedData = Hive.box<NoteModel>(deletedNotes);
     _checkVersion();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    plugin.initialize(publicKey: payStackPubKey);
   }
 
   void _checkVersion() async {
@@ -50,93 +45,36 @@ class _HomeState extends State<Home> {
     final status = await newVersion.getVersionStatus();
     if (status!.canUpdate) {
       newVersion.showUpdateDialog(
-          context: context,
-          versionStatus: status,
-          dialogTitle: 'Update V Notes',
-          dialogText: 'There is a new update for V Notes, '
-              'would you like to update to check up '
-              'what we have improved about the app',
-          dismissAction: () {
-            SystemNavigator.pop();
-          },
-          updateButtonText: 'Update now',
-          dismissButtonText: 'Close');
+        context: context,
+        versionStatus: status,
+        dialogTitle: 'Update V Notes',
+        dialogText: 'There is a new update for V Notes, '
+            'would you like to update to check up '
+            'what we have improved about the app',
+        updateButtonText: 'Update now',
+        dismissButtonText: 'Maybe Later',
+      );
     }
   }
 
-  void deleteDialog(key, NoteModel note) {
-    showDialog(
-      context: context,
-      builder: (_) {
-        return Platform.isAndroid
-            ? AlertDialog(
-                title: const Text('Warning'),
-                content:
-                    const Text('Are you sure you want to delete this note?'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'No',
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      NoteModel noteToDelete = NoteModel(
-                        title: note.title,
-                        notes: note.notes,
-                      );
-                      deletedData!.add(noteToDelete);
-                      storeData!.delete(key);
-                      Navigator.of(context).pop();
-                      setState(() {});
-                    },
-                    child: const Text(
-                      'Yes',
-                    ),
-                  ),
-                ],
-              )
-            : CupertinoAlertDialog(
-                title: const Text('Warning'),
-                content:
-                    const Text('Are you sure you want to delete this note?'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'No',
-                      style: TextStyle(),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      storeData!.delete(key);
-                      Navigator.of(context).pop();
-                      setState(() {});
-                    },
-                    child: const Text(
-                      'Yes',
-                      style: TextStyle(),
-                    ),
-                  ),
-                ],
-              );
-      },
+  Future startPayment() async {
+    Charge charge = Charge()
+      ..amount = 10000
+      ..reference = 'dafsddafdfas'
+      ..email = 'customer@email.com';
+    CheckoutResponse response = await plugin.checkout(
+      context,
+      method: CheckoutMethod.card, // Defaults to CheckoutMethod.selectable
+      charge: charge,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final checkTheme = Provider.of<ThemeProvider>(context);
-    final homeViewStyle = Provider.of<ChangeViewStyleProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notes'),
+        title: const Text('VNotes'),
         // TODO:* adding support for localization soon.
         actions: [
           if (Platform.isIOS)
@@ -161,271 +99,130 @@ class _HomeState extends State<Home> {
               Icons.settings,
             ),
           ),
-          IconButton(
-            onPressed: () {
-              homeViewStyle.checkButtonState();
-            },
-            icon: Icon(
-              homeViewStyle.mChangeViewStyle == false
-                  ? Icons.list
-                  : Icons.grid_view_outlined,
-            ),
-          ),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Platform.isAndroid
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(MySlide(builder: (_) {
-                  return const CreateNoteScreen();
-                }));
-              },
-              backgroundColor: backColor,
-              tooltip: 'Add Note',
-              child: const Icon(
-                Icons.add,
-                color: defaultBlack,
-              ),
-            )
-          : null,
-      body: storeData!.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    'No Notes Yet... \n(Tap on the Add Button below)',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Icon(
-                    Icons.arrow_downward_sharp,
-                    size: 60,
-                  )
-                ],
-              ),
-            )
-          : SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: ValueListenableBuilder(
-                  valueListenable: storeData!.listenable(),
-                  builder: (context, Box<NoteModel> notes, _) {
-                    List<int>? keys = notes.keys.cast<int>().toList();
-                    return homeViewStyle.mChangeViewStyle == false
-                        ? MasonryGridView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            primary: false,
-                            shrinkWrap: true,
-                            mainAxisSpacing: 8.0,
-                            crossAxisSpacing: 8.0,
-                            addRepaintBoundaries: true,
-                            itemCount: keys.length,
-                            gridDelegate:
-                                const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                            ),
-                            itemBuilder: (_, index) {
-                              final key = keys[index];
-                              final NoteModel? note = notes.get(key);
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .push(MySlide(builder: (_) {
-                                    return ReadNotesScreen(
-                                      note: note,
-                                      noteKey: key,
-                                    );
-                                  }));
-                                },
-                                onLongPress: () {
-                                  deleteDialog(key, note!);
-                                },
-                                child: note!.title == null
-                                    ? Container(
-                                        decoration: const BoxDecoration(
-                                            color: Colors.white38,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(16.0),
-                                          child: Text(
-                                            '${note.notes}',
-                                            style: const TextStyle(),
-                                            softWrap: true,
-                                          ),
-                                        ),
-                                      )
-                                    : Container(
-                                        decoration: const BoxDecoration(
-                                            color: Colors.white38,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(16.0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                decoration: BoxDecoration(
-                                                  color:
-                                                      checkTheme.mTheme == false
-                                                          ? backColor
-                                                          : Colors.grey[900],
-                                                ),
-                                                child: Text(
-                                                  note.title == null ||
-                                                          note.title == ''
-                                                      ? 'No Title'
-                                                      : '${note.title}',
-                                                  style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                  softWrap: true,
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              Flexible(
-                                                fit: FlexFit.loose,
-                                                child: Column(
-                                                  children: [
-                                                    Text(
-                                                      '${note.notes!.length >= 70 ? note.notes!.substring(0, 70) + '...' : note.notes}',
-                                                      style: const TextStyle(),
-                                                      softWrap: true,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                              );
-                            },
-                            // staggeredTileBuilder: (int index) => StaggeredTile.count(2, index.isEven ? 2 : 1),
-                          )
-                        : ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: keys.length,
-                            itemBuilder: (context, index) {
-                              final key = keys[index];
-                              final NoteModel? note = notes.get(key);
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .push(MySlide(builder: (_) {
-                                    return ReadNotesScreen(
-                                      note: note,
-                                      noteKey: key,
-                                    );
-                                  }));
-                                },
-                                onLongPress: () {
-                                  deleteDialog(key, note!);
-                                },
-                                child: note!.title == null
-                                    ? Column(
-                                        children: [
-                                          Container(
-                                            decoration: const BoxDecoration(
-                                              color: Colors.white38,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0),
-                                              ),
-                                            ),
-                                            child: ListTile(
-                                              title: Text(
-                                                '${note.notes}',
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 7,
-                                          ),
-                                        ],
-                                      )
-                                    : Column(
-                                        children: [
-                                          Container(
-                                            decoration: const BoxDecoration(
-                                              color: Colors.white38,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0),
-                                              ),
-                                            ),
-                                            child: ListTile(
-                                              title: Text(
-                                                note.title == null ||
-                                                        note.title == ''
-                                                    ? 'No Title'
-                                                    : '${note.title}',
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                              subtitle: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '${note.notes!.length >= 70 ? note.notes!.substring(0, 70) + '...' : note.notes}',
-                                                    style: const TextStyle(
-                                                      fontSize: 18,
-                                                    ),
-                                                    softWrap: true,
-                                                  ),
-                                                  // const SizedBox(
-                                                  //   height: 10,
-                                                  // ),
-                                                  // Text(
-                                                  //   noteDate,
-                                                  //   style: const TextStyle(
-                                                  //     color: Colors.grey,
-                                                  //     fontSize: 14,
-                                                  //   ),
-                                                  //   softWrap: true,
-                                                  // ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 7,
-                                          ),
-                                        ],
-                                      ),
-                              );
-                            },
-                          );
-                  },
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                 SizedBox(
+                  height: 30.h,
                 ),
-              ),
+                Text(
+                  'Hi 👋🏾, ${greetingMessage()}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.sp,
+                  ),
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  color: checkTheme.mTheme == false
+                      ? backColor.withOpacity(0.7)
+                      : cardColor,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MySlide(builder: (_) {
+                        return const LocalNotesScreen();
+                      }));
+                    },
+                    child: Container(
+                      height: 200.h,
+                      width: 300.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.sd_storage_outlined,
+                              size: 100.r,
+                              color: checkTheme.mTheme == false
+                                  ? defaultBlack
+                                  : defaultWhite,
+                            ),
+                            Text(
+                              'Local Note',
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  color: checkTheme.mTheme == false
+                      ? backColor.withOpacity(0.7)
+                      : cardColor,
+                  child: InkWell(
+                    onTap: () {
+                      // Navigator.of(context).push(MySlide(builder: (_) {
+                      //   return const LocalNotesScreen();
+                      // }));
+                      // startPayment();
+                    },
+                    child: Container(
+                      height: 200.h,
+                      width: 300.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.cloud_queue_outlined,
+                              size: 100.r,
+                              color: checkTheme.mTheme == false
+                                  ? defaultBlack
+                                  : defaultWhite,
+                            ),
+                            Text(
+                              'Could Note',
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'Coming Soon...',
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+          ),
+        ),
+      ),
     );
   }
 }
