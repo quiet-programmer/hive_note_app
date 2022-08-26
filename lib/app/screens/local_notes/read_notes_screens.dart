@@ -1,7 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:note_app/app/screens/edit_note_screen.dart';
+import 'package:note_app/app/screens/local_notes/edit_note_screen.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/hide_play_button_provider.dart';

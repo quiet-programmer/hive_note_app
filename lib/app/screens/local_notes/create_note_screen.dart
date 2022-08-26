@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
-import 'package:note_app/app/screens/home.dart';
+import 'package:note_app/app/screens/local_notes/local_notes.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/theme_provider.dart';
@@ -65,7 +65,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       );
       Navigator.of(context).pop();
       await Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        return const Home();
+        return const LocalNotesScreen();
       }));
       _isNotEmpty = true;
     } else {
@@ -75,7 +75,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       );
       Navigator.of(context).pop();
       await Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        return const Home();
+        return const LocalNotesScreen();
       }));
       _isNotEmpty = false;
     }
@@ -104,7 +104,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       );
       Navigator.of(context).pop();
       Navigator.of(context).push(MySlide(builder: (_) {
-        return const Home();
+        return const LocalNotesScreen();
       }));
     }
   }
