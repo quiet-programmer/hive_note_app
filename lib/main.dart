@@ -11,9 +11,11 @@ import 'package:note_app/providers/hide_play_button_provider.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   Directory document = await getApplicationDocumentsDirectory();
   Hive
     ..init(document.path)

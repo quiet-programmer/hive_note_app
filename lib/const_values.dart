@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 
 var logger = Logger();
+
+String apiUrl = dotenv.env['API_URL'].toString();
+String payStackPubKey = dotenv.env['PAYSTACK_PUB_KEY'].toString();
+String payStackSecKey = dotenv.env['PAYSTACK_SEC_KEY'].toString();
 
 const Color backColor = Color.fromRGBO(224, 211, 175, 1);
 
