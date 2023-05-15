@@ -87,7 +87,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           'Enable Dark Theme',
                           style: TextStyle(),
                         ),
-                        subtitle: const Text('Not working right now'),
                         trailing: Switch(
                           value: checkTheme.mTheme,
                           onChanged: (val) {
