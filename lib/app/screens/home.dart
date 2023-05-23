@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_paystack_payment/flutter_paystack_payment.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -30,7 +29,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Box<NoteModel>? storeData;
-  final plugin = PaystackPayment();
 
   @override
   void initState() {
@@ -38,38 +36,25 @@ class _HomeScreenState extends State<HomeScreen> {
     storeData = Hive.box<NoteModel>(noteBox);
     initPlatformState();
     _checkVersion();
-    plugin.initialize(publicKey: payStackPubKey);
   }
 
   void _checkVersion() async {
     final newVersion = NewVersion(
-      androidId: 'com.viewus.v_notes',
+      androidId: androidID,
     );
     final status = await newVersion.getVersionStatus();
     if (status!.canUpdate) {
-      newVersion.showUpdateDialog(
-        context: context,
-        versionStatus: status,
-        dialogTitle: 'Update V Notes',
-        dialogText: 'There is a new update for V Notes, '
-            'would you like to update to check up '
-            'what we have improved about the app',
-        updateButtonText: 'Update now',
-        dismissButtonText: 'Maybe Later',
-      );
+      if(mounted) {
+        newVersion.showUpdateDialog(
+          context: context,
+          versionStatus: status,
+          dialogTitle: dialogTitle,
+          dialogText: dialogText,
+          updateButtonText: 'Update now',
+          dismissButtonText: 'Maybe Later',
+        );
+      }
     }
-  }
-
-  Future startPayment() async {
-    Charge charge = Charge()
-      ..amount = 10000
-      ..reference = 'dafsddafdfas'
-      ..email = 'customer@email.com';
-    CheckoutResponse response = await plugin.checkout(
-      context,
-      method: CheckoutMethod.card, // Defaults to CheckoutMethod.selectable
-      charge: charge,
-    );
   }
 
   static const String oneSignalAppId = 'e41ee34c-a2e9-4345-aa95-078b223419b3';
@@ -204,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   : defaultWhite,
                             ),
                             Text(
-                              'Could Note',
+                              'Cloud Note',
                               style: TextStyle(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,
