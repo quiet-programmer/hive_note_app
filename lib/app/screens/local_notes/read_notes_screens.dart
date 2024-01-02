@@ -36,7 +36,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
   dynamic languages;
   String? language;
   double? volume = 0.5;
-  double? pitch = 1.0;
+  double? pitch = 0.8;
   double? rate = 0.9;
 
   String? _newVoiceText;
@@ -235,16 +235,16 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: checkButtonState.mPlayButton == false
           ? FloatingActionButton(
+              backgroundColor: Colors.white60,
+              onPressed: () {
+                ttsState == TtsState.stopped ? _speak() : _stop();
+              },
               child: Icon(
                 ttsState == TtsState.stopped
                     ? Icons.play_circle_outline
                     : Icons.stop_circle_outlined,
                 color: Colors.black45,
               ),
-              backgroundColor: Colors.white60,
-              onPressed: () {
-                ttsState == TtsState.stopped ? _speak() : _stop();
-              },
             )
           : null,
     );

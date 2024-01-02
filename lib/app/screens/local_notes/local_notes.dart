@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:new_version/new_version.dart';
 import 'package:note_app/app/screens/local_notes/read_notes_screens.dart';
 import 'package:note_app/const_values.dart';
 import 'package:note_app/models/note_model.dart';
@@ -152,10 +151,10 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
       )
           : null,
       body: storeData!.isEmpty
-          ? Center(
+          ? const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text(
               'No Notes Yet... \n(Tap on the Add Button below)',
               style: TextStyle(
@@ -268,7 +267,7 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
                               child: Column(
                                 children: [
                                   Text(
-                                    '${note.notes!.length >= 70 ? note.notes!.substring(0, 70) + '...' : note.notes}',
+                                    '${note.notes!.length >= 70 ? '${note.notes!.substring(0, 70)}...' : note.notes}',
                                     style: const TextStyle(),
                                     softWrap: true,
                                   ),
@@ -354,7 +353,7 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
                               CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${note.notes!.length >= 70 ? note.notes!.substring(0, 70) + '...' : note.notes}',
+                                  '${note.notes!.length >= 70 ? '${note.notes!.substring(0, 70)}...' : note.notes}',
                                   style: const TextStyle(
                                     fontSize: 18,
                                   ),

@@ -63,20 +63,24 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         msg: 'Note Saved',
         toastLength: Toast.LENGTH_SHORT,
       );
-      Navigator.of(context).pop();
-      await Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        return const LocalNotesScreen();
-      }));
+      if(mounted) {
+        Navigator.of(context).pop();
+        await Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return const LocalNotesScreen();
+        }));
+      }
       _isNotEmpty = true;
     } else {
       await Fluttertoast.showToast(
         msg: 'Note was empty, nothing was saved',
         toastLength: Toast.LENGTH_SHORT,
       );
-      Navigator.of(context).pop();
-      await Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        return const LocalNotesScreen();
-      }));
+      if(mounted) {
+        Navigator.of(context).pop();
+        await Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return const LocalNotesScreen();
+        }));
+      }
       _isNotEmpty = false;
     }
     return _isNotEmpty!;

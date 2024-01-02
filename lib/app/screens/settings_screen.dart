@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:note_app/app/screens/trash_screen/trashed_notes.dart';
 import 'package:note_app/providers/hide_play_button_provider.dart';
 import 'package:note_app/providers/theme_provider.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -51,9 +51,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Column(
                     children: [
                       //Body here
-                      SizedBox(
+                      const SizedBox(
                         child: Column(
-                          children: const [
+                          children: [
                             Text(
                               'VNotes',
                               style: TextStyle(

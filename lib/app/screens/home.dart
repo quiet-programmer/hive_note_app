@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:new_version/new_version.dart';
 import 'package:note_app/app/screens/local_notes/local_notes.dart';
 import 'package:note_app/app/screens/notifications/notifications_view.dart';
 import 'package:note_app/app/screens/settings_screen.dart';
@@ -15,7 +14,6 @@ import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/utils/greetings.dart';
 import 'package:note_app/utils/slide_transition.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'local_notes/create_note_screen.dart';
@@ -34,30 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     storeData = Hive.box<NoteModel>(noteBox);
-    initPlatformState();
-    _checkVersion();
+    // initPlatformState();
   }
 
-  void _checkVersion() async {
-    final newVersion = NewVersion(
-      androidId: androidID,
-    );
-    final status = await newVersion.getVersionStatus();
-    if (status!.canUpdate) {
-      if(mounted) {
-        newVersion.showUpdateDialog(
-          context: context,
-          versionStatus: status,
-          dialogTitle: dialogTitle,
-          dialogText: dialogText,
-          updateButtonText: 'Update now',
-          dismissButtonText: 'Maybe Later',
-        );
-      }
-    }
-  }
-
-  static const String oneSignalAppId = 'e41ee34c-a2e9-4345-aa95-078b223419b3';
+  // static const String oneSignalAppId = 'e41ee34c-a2e9-4345-aa95-078b223419b3';
 
   @override
   Widget build(BuildContext context) {
@@ -216,50 +194,50 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> initPlatformState() async {
-    if (!mounted) return;
-
-    OneSignal.shared.setAppId(oneSignalAppId);
-
-    OneSignal.shared
-        .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-      logger.i(result.notification.body);
-      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        return NotificationView(
-          title: result.notification.title,
-          body: result.notification.body,
-        );
-      }));
-      // push to another screen.
-    });
-
-    OneSignal.shared.setNotificationWillShowInForegroundHandler(
-            (OSNotificationReceivedEvent event) {
-          logger.i(event.notification.body);
-          // push to another screen
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-            return NotificationView(
-              title: event.notification.title,
-              body: event.notification.body,
-            );
-          }));
-
-          /// Display Notification, send null to not display
-          event.complete(null);
-        });
-
-    if (Platform.isIOS) {
-      OneSignal.shared
-          .setPermissionObserver((OSPermissionStateChanges changes) {
-        logger.i("PERMISSION STATE CHANGED: ${changes.jsonRepresentation()}");
-      });
-
-      OneSignal.shared
-          .promptUserForPushNotificationPermission()
-          .then((accepted) {
-        logger.i("Accepted permission: $accepted");
-      });
-    }
-  }
+  // Future<void> initPlatformState() async {
+  //   if (!mounted) return;
+  //
+  //   OneSignal.shared.setAppId(oneSignalAppId);
+  //
+  //   OneSignal.shared
+  //       .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+  //     logger.i(result.notification.body);
+  //     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+  //       return NotificationView(
+  //         title: result.notification.title,
+  //         body: result.notification.body,
+  //       );
+  //     }));
+  //     // push to another screen.
+  //   });
+  //
+  //   OneSignal.shared.setNotificationWillShowInForegroundHandler(
+  //           (OSNotificationReceivedEvent event) {
+  //         logger.i(event.notification.body);
+  //         // push to another screen
+  //         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+  //           return NotificationView(
+  //             title: event.notification.title,
+  //             body: event.notification.body,
+  //           );
+  //         }));
+  //
+  //         /// Display Notification, send null to not display
+  //         event.complete(null);
+  //       });
+  //
+  //   if (Platform.isIOS) {
+  //     OneSignal.shared
+  //         .setPermissionObserver((OSPermissionStateChanges changes) {
+  //       logger.i("PERMISSION STATE CHANGED: ${changes.jsonRepresentation()}");
+  //     });
+  //
+  //     OneSignal.shared
+  //         .promptUserForPushNotificationPermission()
+  //         .then((accepted) {
+  //       logger.i("Accepted permission: $accepted");
+  //     });
+  //   }
+  // }
 
 }
