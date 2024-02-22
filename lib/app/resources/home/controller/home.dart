@@ -6,17 +6,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:note_app/app/screens/local_notes/local_notes.dart';
-import 'package:note_app/app/screens/notifications/notifications_view.dart';
-import 'package:note_app/app/screens/settings_screen.dart';
-import 'package:note_app/const_values.dart';
+import 'package:note_app/app/resources/home/views/local_notes/local_notes.dart';
+import 'package:note_app/app/resources/settings/controller/settings_screen.dart';
+import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/utils/greetings.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:provider/provider.dart';
 
-import 'local_notes/create_note_screen.dart';
+import '../views/local_notes/create_note_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

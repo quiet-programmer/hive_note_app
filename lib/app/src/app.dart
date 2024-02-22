@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:note_app/app/screens/home.dart';
-import 'package:note_app/custom_theme.dart';
+import 'package:note_app/app/resources/home/controller/home.dart';
+import 'package:note_app/utils/custom_theme.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 

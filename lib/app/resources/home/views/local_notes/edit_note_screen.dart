@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
-import 'package:note_app/app/screens/local_notes/read_notes_screens.dart';
-import 'package:note_app/const_values.dart';
+import 'package:note_app/app/resources/home/views/local_notes/read_notes_screens.dart';
+import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/utils/slide_transition.dart';

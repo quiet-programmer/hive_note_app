@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/const_values.dart';
+import 'package:note_app/utils/const_values.dart';
 
 ThemeData buildLightTheme() => ThemeData.light().copyWith(
       cardColor: Colors.white,
