@@ -25,12 +25,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Box<NoteModel>? storeData;
 
   @override
   void initState() {
     super.initState();
-    storeData = Hive.box<NoteModel>(noteBox);
     // initPlatformState();
   }
 

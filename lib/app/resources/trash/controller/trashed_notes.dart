@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -15,17 +16,15 @@ class TrashedNotes extends StatefulWidget {
 }
 
 class _TrashedNotesState extends State<TrashedNotes> {
-  Box<NoteModel>? storeData;
-  Box<NoteModel>? deletedData;
 
   @override
   void initState() {
     super.initState();
-    storeData = Hive.box<NoteModel>(noteBox);
-    deletedData = Hive.box<NoteModel>(deletedNotes);
   }
 
   void removeFromTrashDialog(key, NoteModel? note) {
+    final storeData = HiveManager().noteModelBox;
+    final deletedData = HiveManager().noteModelBox;
     showDialog(
       context: context,
       builder: (_) {
@@ -93,15 +92,17 @@ class _TrashedNotesState extends State<TrashedNotes> {
 
   @override
   Widget build(BuildContext context) {
+    final storeData = HiveManager().noteModelBox;
+    final deletedData = HiveManager().noteModelBox;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Trashed Note'),
       ),
       body: deletedData!.isEmpty
-          ? Center(
+          ? const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     'No notes have been deleted',
                     style: TextStyle(

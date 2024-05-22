@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
+import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/local_notes/local_notes.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/models/note_model.dart';
@@ -19,7 +20,6 @@ class CreateNoteScreen extends StatefulWidget {
 }
 
 class _CreateNoteScreenState extends State<CreateNoteScreen> {
-  Box<NoteModel>? storeData;
 
   final TextEditingController _noteTitle = TextEditingController();
   final TextEditingController _noteText = TextEditingController();
@@ -35,7 +35,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   @override
   void initState() {
     super.initState();
-    storeData = Hive.box<NoteModel>(noteBox);
     myTextStyle = const TextStyle(
       fontSize: 18.5,
     );
@@ -50,6 +49,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   }
 
   Future<bool> checkIfNoteIsNotEmptyWhenGoingBack() async {
+    final storeData = HiveManager().noteModelBox;
     if (_noteText.text.isNotEmpty || _noteTitle.text.isNotEmpty) {
       final String noteTitle = _noteTitle.text;
       final String note = _noteText.text;
@@ -87,6 +87,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   }
 
   void checkIfNoteIsNotEmptyAndSaveNote() {
+    final storeData = HiveManager().noteModelBox;
     if (_noteTitle.text.isEmpty || _noteText.text.isEmpty) {
       Fluttertoast.showToast(
         msg: 'Title or note body cannot be empty',

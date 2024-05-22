@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/local_notes/read_notes_screens.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/models/note_model.dart';
@@ -24,17 +25,15 @@ class LocalNotesScreen extends StatefulWidget {
 }
 
 class _LocalNotesScreenState extends State<LocalNotesScreen> {
-  Box<NoteModel>? storeData;
-  Box<NoteModel>? deletedData;
 
   @override
   void initState() {
     super.initState();
-    storeData = Hive.box<NoteModel>(noteBox);
-    deletedData = Hive.box<NoteModel>(deletedNotes);
   }
 
   void deleteDialog(key, NoteModel note) {
+    final storeData = HiveManager().noteModelBox;
+    final deletedData = HiveManager().noteModelBox;
     showDialog(
       context: context,
       builder: (_) {
@@ -102,6 +101,7 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final storeData = HiveManager().noteModelBox;
     final checkTheme = Provider.of<ThemeProvider>(context);
     final LocalNotesScreenViewStyle =
         Provider.of<ChangeViewStyleProvider>(context);

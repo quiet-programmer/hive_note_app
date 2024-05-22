@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/src/app.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/models/note_model.dart';
@@ -15,13 +16,8 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await dotenv.load(fileName: ".env");
-  Directory document = await getApplicationDocumentsDirectory();
-  Hive
-    ..init(document.path)
-    ..registerAdapter(NoteModelAdapter());
-  await Hive.openBox<NoteModel>(noteBox);
-  await Hive.openBox<NoteModel>(deletedNotes);
+  // initialize hive
+  await HiveManager().init();
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
