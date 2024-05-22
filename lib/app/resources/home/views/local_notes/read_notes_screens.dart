@@ -36,8 +36,8 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
   dynamic languages;
   String? language;
   double? volume = 0.5;
-  double? pitch = 0.8;
-  double? rate = 0.9;
+  double? pitch = 0.2;
+  double? rate = 0.4;
 
   String? _newVoiceText;
 

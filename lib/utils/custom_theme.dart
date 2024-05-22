@@ -3,7 +3,6 @@ import 'package:note_app/utils/const_values.dart';
 
 ThemeData buildLightTheme() => ThemeData.light().copyWith(
       cardColor: Colors.white,
-      backgroundColor: Colors.grey[100],
       scaffoldBackgroundColor: backColor,
       iconTheme: const IconThemeData(
         color: defaultBlack,
@@ -51,7 +50,6 @@ ThemeData buildLightTheme() => ThemeData.light().copyWith(
 
 ThemeData buildDarkTheme() => ThemeData.dark().copyWith(
       cardColor: Colors.grey[850],
-      backgroundColor: Colors.grey[900],
       scaffoldBackgroundColor: darkColor,
       dividerColor: defaultWhite,
       iconTheme: const IconThemeData(
