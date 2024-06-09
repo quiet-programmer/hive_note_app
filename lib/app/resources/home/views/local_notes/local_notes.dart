@@ -4,11 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/local_notes/models/note_model.dart';
 import 'package:note_app/app/resources/home/views/local_notes/read_notes_screens.dart';
+import 'package:note_app/app/router/route_name.dart';
 import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/providers/change_view_style_provider.dart';
@@ -85,7 +87,7 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      storeData!.delete(key);
+                      storeData.delete(key);
                       Navigator.of(context).pop();
                       setState(() {});
                     },
@@ -114,10 +116,8 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
           if (Platform.isIOS)
             IconButton(
               onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(MySlide(builder: (_) {
-                  return const CreateNoteScreen();
-                }));
+                context.pop();
+                context.pushNamed(RouteName.create_notes_screen);
               },
               icon: const Icon(
                 CupertinoIcons.add_circled,

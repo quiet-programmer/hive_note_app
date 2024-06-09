@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       : cardColor,
                   child: InkWell(
                     onTap: () {
-
+                      context.pushNamed(RouteName.wrapper);
                     },
                     child: Container(
                       height: 200.h,
@@ -145,13 +145,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(
-                              'Coming Soon...',
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
                           ],
                         ),
                       ),

@@ -285,8 +285,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: c9af9f8
-      resolved-ref: c9af9f8b58dc8cd0b4ea9c6d21b91e99548da6a7
+      ref: "0cda07e"
+      resolved-ref: "0cda07e8072c96dea8956e13c0dab2251b5495b9"
       url: "https://github.com/quiet-programmer/flashy_flushbar.git"
     source: git
     version: "1.1.0"
@@ -353,6 +353,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.2.5"
+  font_awesome_flutter:
+    dependency: "direct main"
+    description:
+      name: font_awesome_flutter
+      sha256: "275ff26905134bcb59417cf60ad979136f1f8257f2f449914b2c3e05bbb4cd6f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.7.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -553,6 +561,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  otp_text_field_v2:
+    dependency: "direct main"
+    description:
+      name: otp_text_field_v2
+      sha256: "78298aa62fdbd5efdcbf4fb4aa3b1f452d7f225fd6efb85f46b20705aff0b93e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   package_config:
     dependency: transitive
     description:
@@ -903,7 +919,7 @@ packages:
     source: hosted
     version: "1.0.4"
   yaml:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: yaml
       sha256: "75769501ea3489fca56601ff33454fe45507ea3bfb014161abc3b43ae25989d5"

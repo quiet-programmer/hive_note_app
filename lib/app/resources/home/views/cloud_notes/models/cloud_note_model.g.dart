@@ -17,31 +17,25 @@ class CloudNoteModelAdapter extends TypeAdapter<CloudNoteModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CloudNoteModel(
-      id: fields[0] as String?,
-      uuid: fields[1] as String?,
-      title: fields[2] as String?,
-      notes: fields[3] as String?,
-      dateTime: fields[4] as dynamic,
-      isTrashed: fields[5] as int?,
+      id: fields[1] as int?,
+      uuid: fields[2] as String?,
+      title: fields[3] as String?,
+      notes: fields[4] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CloudNoteModel obj) {
     writer
-      ..writeByte(6)
-      ..writeByte(0)
-      ..write(obj.id)
-      ..writeByte(1)
-      ..write(obj.uuid)
-      ..writeByte(2)
-      ..write(obj.title)
-      ..writeByte(3)
-      ..write(obj.notes)
       ..writeByte(4)
-      ..write(obj.dateTime)
-      ..writeByte(5)
-      ..write(obj.isTrashed);
+      ..writeByte(1)
+      ..write(obj.id)
+      ..writeByte(2)
+      ..write(obj.uuid)
+      ..writeByte(3)
+      ..write(obj.title)
+      ..writeByte(4)
+      ..write(obj.notes);
   }
 
   @override

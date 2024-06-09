@@ -58,7 +58,7 @@ class UserModel {
 
   factory UserModel.fromJsonLocalToken(responseData) {
     return UserModel(
-      accessToken: responseData,
+      accessToken: responseData['data']['token'],
     );
   }
 

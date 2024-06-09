@@ -4,48 +4,38 @@ part 'cloud_note_model.g.dart';
 
 @HiveType(typeId: 1)
 class CloudNoteModel {
-  @HiveField(0)
-  final String? id;
-
   @HiveField(1)
-  final String? uuid;
+  final int? id;
 
   @HiveField(2)
-  final String? title;
+  final String? uuid;
 
   @HiveField(3)
-  final String? notes;
+  final String? title;
 
   @HiveField(4)
-  final dynamic dateTime;
-
-  @HiveField(5)
-  final int? isTrashed;
+  final String? notes;
 
   CloudNoteModel({
     this.id,
     this.uuid,
     this.title,
     this.notes,
-    this.dateTime,
-    this.isTrashed,
   });
 
   factory CloudNoteModel.fromJson(Map<String, dynamic> response) {
     return CloudNoteModel(
-      id: response['data']['id'],
-      uuid: response['data']['uuid'],
-      title: response['data']['note_title'],
-      notes: response['data']['note_content'],
-      isTrashed: response['data']['is_trashed'],
-      dateTime: response['data']['created_at'],
+      id: response['id'],
+      uuid: response['uuid'],
+      title: response['note_title'],
+      notes: response['note_content'],
     );
   }
 
   static List<CloudNoteModel> parseResponse(Map<String, dynamic> responseData) {
     if (responseData['success'] == true && responseData['data'] != null) {
-      List<dynamic> followingData = responseData['data'];
-      return followingData.map((json) => CloudNoteModel.fromJson(json)).toList();
+      List<dynamic> noteData = responseData['data'];
+      return noteData.map((json) => CloudNoteModel.fromJson(json)).toList();
     }
     return [];
   }

@@ -1,3 +1,4 @@
+import 'package:flashy_flushbar/flashy_flushbar_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:note_app/app/resources/home/controller/home.dart';
@@ -26,6 +27,7 @@ class _AppState extends State<App> {
               checkTheme.mTheme == false ? buildLightTheme() : buildDarkTheme(),
           title: 'VNotes',
           routerConfig: AppNavigation.router,
+          builder: FlashyFlushbarProvider.init(),
         );
       },
     );
