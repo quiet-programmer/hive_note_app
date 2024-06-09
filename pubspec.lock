@@ -281,6 +281,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  flashy_flushbar:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: c9af9f8
+      resolved-ref: c9af9f8b58dc8cd0b4ea9c6d21b91e99548da6a7
+      url: "https://github.com/quiet-programmer/flashy_flushbar.git"
+    source: git
+    version: "1.1.0"
   flutter:
     dependency: "direct main"
     description: flutter

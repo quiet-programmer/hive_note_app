@@ -30,6 +30,12 @@ Color? cardColor = Colors.grey[850];
 
 // Hive details
 const String noteBox = 'notebox';
+const String cloudNoteBox = 'cloudNoteBox';
+const String userBox = 'userBox';
 const String deletedNotes = 'deletedNotes';
 const String appHiveKey = 'state';
 const String deleteNote = 'deleteNote';
+
+
+const String userKey = 'userKey';
+const String tokenKey = 'tokenKey';
