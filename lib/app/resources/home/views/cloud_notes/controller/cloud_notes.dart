@@ -3,9 +3,14 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/cloud_notes/models/cloud_note_model.dart';
+import 'package:note_app/app/resources/home/views/cloud_notes/views/cloud_read_note.dart';
+import 'package:note_app/app/router/route_name.dart';
+import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/providers/change_view_style_provider.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/request/get_request.dart';
@@ -45,6 +50,7 @@ class _CloudNotesScreenState extends State<CloudNotesScreen> {
         await cloudNoteModel.clear();
         await cloudNoteModel.addAll(cloudNotes);
 
+        setState(() {});
         logger.i('Notes stored successfully');
       }
     } catch (error) {
@@ -79,7 +85,10 @@ class _CloudNotesScreenState extends State<CloudNotesScreen> {
 
     try {
       if (status == 200) {
-        showSuccess(msg);
+        Fluttertoast.showToast(
+          msg: '$msg',
+          toastLength: Toast.LENGTH_SHORT,
+        );
 
         if (mounted) {
           fetchNotes();
@@ -181,7 +190,10 @@ class _CloudNotesScreenState extends State<CloudNotesScreen> {
         actions: [
           if (Platform.isIOS)
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                context.pop();
+                context.pushNamed(RouteName.cloud_create_notes_screen);
+              },
               icon: const Icon(
                 CupertinoIcons.add_circled,
               ),
@@ -191,7 +203,10 @@ class _CloudNotesScreenState extends State<CloudNotesScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Platform.isAndroid
           ? FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                context.pop();
+                context.pushNamed(RouteName.cloud_create_notes_screen);
+              },
               backgroundColor:
                   checkTheme.mTheme == true ? cardColor : backColor,
               tooltip: 'Add Note',
@@ -226,10 +241,11 @@ class _CloudNotesScreenState extends State<CloudNotesScreen> {
                         final CloudNoteModel? note = notes.get(key);
                         return GestureDetector(
                           onTap: () {
-                            // navigateTo(context, destination: ReadNotesScreen(
-                            //   note: note,
-                            //   noteKey: key,
-                            // ));
+                            navigateTo(context,
+                                destination: CloudReadNote(
+                                  note: note,
+                                  noteKey: key,
+                                ));
                           },
                           onLongPress: () {
                             deleteDialog(key, note);

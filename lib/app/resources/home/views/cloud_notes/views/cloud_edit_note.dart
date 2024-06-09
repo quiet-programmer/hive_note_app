@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hive/hive.dart';
 import 'package:note_app/app/helpers/hive_manager.dart';
-import 'package:note_app/app/resources/home/views/local_notes/models/note_model.dart';
-import 'package:note_app/app/resources/home/views/local_notes/read_notes_screens.dart';
+import 'package:note_app/app/resources/home/views/cloud_notes/models/cloud_note_model.dart';
+import 'package:note_app/app/resources/home/views/cloud_notes/views/cloud_read_note.dart';
 import 'package:note_app/m_functions/navigate_to.dart';
-import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/providers/theme_provider.dart';
-import 'package:note_app/utils/slide_transition.dart';
+import 'package:note_app/request/post_request.dart';
+import 'package:note_app/utils/const_values.dart';
 import 'package:provider/provider.dart';
 
-class EditNoteScreen extends StatefulWidget {
-  final NoteModel? notes;
+class CloudEditNote extends StatefulWidget {
+  final CloudNoteModel? notes;
   final int? noteKey;
 
-  const EditNoteScreen({
+  const CloudEditNote({
     super.key,
     @required this.notes,
     @required this.noteKey,
   });
 
   @override
-  _EditNoteScreenState createState() => _EditNoteScreenState();
+  State<CloudEditNote> createState() => _CloudEditNoteState();
 }
 
-class _EditNoteScreenState extends State<EditNoteScreen> {
+class _CloudEditNoteState extends State<CloudEditNote> {
   final goToNotes = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -35,6 +34,27 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   var _initValue = {'notes': '', 'conText': ''};
 
   var _isInit = true;
+
+  Future editNote(String? title, String? notes, String? uuid) async {
+
+    final userModel = HiveManager().userModelBox;
+    final storeData = HiveManager().noteModelBox;
+
+    var params = {
+      'note_title': '$title',
+      'note_content': '$notes',
+      'note_uuid': '$uuid',
+    };
+
+    var res = await PostRequest.makePostRequest(
+      requestEnd: 'user/edit_notes',
+      params: params,
+      context: context,
+      bearer: userModel.get(tokenKey)!.accessToken,
+    );
+
+    logger.i(res);
+  }
 
   @override
   void didChangeDependencies() {
@@ -65,7 +85,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   Widget build(BuildContext context) {
     final checkTheme = Provider.of<ThemeProvider>(context);
     var height = MediaQuery.of(context).size.height;
-    final storeData = HiveManager().noteModelBox;
+    final storeData = HiveManager().cloudNoteModelBox;
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -109,11 +129,14 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                 var key = widget.noteKey;
                 String? title = _initValue['title'];
                 String? note = _initValue['notes'];
-                NoteModel noteM = NoteModel(
+
+                CloudNoteModel noteM = CloudNoteModel(
                   title: title!,
                   notes: note!,
-                  // dateTime: DateTime.now().toString(),
                 );
+
+                editNote(title, note, widget.notes!.uuid);
+
                 storeData.put(key, noteM);
                 Fluttertoast.showToast(
                   msg: 'Note Saved',
@@ -121,13 +144,13 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                 );
                 Navigator.pop(context);
                 navigateTo(context,
-                    destination: ReadNotesScreen(note: noteM, noteKey: key));
+                    destination: CloudReadNote(note: noteM, noteKey: key));
               }
             },
             icon: Icon(
               Icons.done,
               color:
-                  checkTheme.mTheme == false ? Colors.black45 : Colors.white38,
+              checkTheme.mTheme == false ? Colors.black45 : Colors.white38,
             ),
             label: Text(
               'Update',

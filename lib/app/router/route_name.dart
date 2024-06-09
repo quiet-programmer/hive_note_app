@@ -13,6 +13,11 @@ class RouteName {
 
   // ends here
 
+  // Cloud Notes Route
+  static const String cloud_create_notes_screen = 'cloud_create_notes_screen';
+
+  // ends here
+
 // Auth Route
   static const String login_screen = 'login_screen';
   static const String register_screen = 'register_screen';

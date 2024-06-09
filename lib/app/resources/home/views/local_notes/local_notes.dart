@@ -139,10 +139,8 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
       floatingActionButton: Platform.isAndroid
           ? FloatingActionButton(
               onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(MySlide(builder: (_) {
-                  return const CreateNoteScreen();
-                }));
+                context.pop();
+                context.pushNamed(RouteName.create_notes_screen);
               },
               backgroundColor: checkTheme.mTheme == true ? cardColor : backColor,
               tooltip: 'Add Note',

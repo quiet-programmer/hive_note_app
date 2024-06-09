@@ -5,6 +5,7 @@ import 'package:note_app/app/resources/home/views/cloud_notes/auth/register_scre
 import 'package:note_app/app/resources/home/views/cloud_notes/auth/verify_code.dart';
 import 'package:note_app/app/resources/home/views/cloud_notes/auth/wrapper.dart';
 import 'package:note_app/app/resources/home/views/cloud_notes/controller/cloud_notes.dart';
+import 'package:note_app/app/resources/home/views/cloud_notes/views/cloud_create_note.dart';
 import 'package:note_app/app/resources/home/views/local_notes/create_note_screen.dart';
 import 'package:note_app/app/resources/home/views/local_notes/edit_note_screen.dart';
 import 'package:note_app/app/resources/home/views/local_notes/local_notes.dart';
@@ -51,6 +52,14 @@ class AppNavigation {
             path: 'create_notes_screen',
             name: RouteName.create_notes_screen,
             builder: (_, state) => const CreateNoteScreen(),
+          ),
+          // ends here
+
+          // Local Notes Route
+          GoRoute(
+            path: 'cloud_create_notes_screen',
+            name: RouteName.cloud_create_notes_screen,
+            builder: (_, state) => const CloudCreateNote(),
           ),
           // ends here
 
