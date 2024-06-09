@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:note_app/app/resources/home/views/local_notes/edit_note_screen.dart';
+import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/hide_play_button_provider.dart';
@@ -194,13 +195,11 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
           IconButton(
             icon: const Icon(Icons.mode_edit),
             onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(MySlide(builder: (_) {
-                return EditNoteScreen(
-                  notes: widget.note,
-                  noteKey: widget.noteKey,
-                );
-              }));
+              Navigator.pop(context);
+              navigateTo(context, destination: EditNoteScreen(
+                notes: widget.note,
+                noteKey: widget.noteKey,
+              ));
             },
           )
         ],

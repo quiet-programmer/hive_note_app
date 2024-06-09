@@ -19,7 +19,7 @@ class NoteModelAdapter extends TypeAdapter<NoteModel> {
     return NoteModel(
       title: fields[0] as String?,
       notes: fields[1] as String?,
-      dateTime: fields[2] as String?,
+      dateTime: fields[2] as dynamic,
     );
   }
 

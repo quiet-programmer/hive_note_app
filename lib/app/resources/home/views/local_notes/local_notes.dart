@@ -8,6 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/local_notes/read_notes_screens.dart';
+import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/change_view_style_provider.dart';
@@ -151,7 +152,7 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
               ),
             )
           : null,
-      body: storeData!.isEmpty
+      body: storeData.isEmpty
           ? const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -198,13 +199,10 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
                               final NoteModel? note = notes.get(key);
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .push(MySlide(builder: (_) {
-                                    return ReadNotesScreen(
-                                      note: note,
-                                      noteKey: key,
-                                    );
-                                  }));
+                                  navigateTo(context, destination: ReadNotesScreen(
+                                    note: note,
+                                    noteKey: key,
+                                  ));
                                 },
                                 onLongPress: () {
                                   deleteDialog(key, note!);
@@ -293,13 +291,10 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
                               final NoteModel? note = notes.get(key);
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .push(MySlide(builder: (_) {
-                                    return ReadNotesScreen(
-                                      note: note,
-                                      noteKey: key,
-                                    );
-                                  }));
+                                  navigateTo(context, destination: ReadNotesScreen(
+                                    note: note,
+                                    noteKey: key,
+                                  ));
                                 },
                                 onLongPress: () {
                                   deleteDialog(key, note!);

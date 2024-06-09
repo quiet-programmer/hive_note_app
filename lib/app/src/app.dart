@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:note_app/app/resources/home/controller/home.dart';
+import 'package:note_app/app/router/route_config.dart';
 import 'package:note_app/utils/custom_theme.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -19,12 +20,12 @@ class _AppState extends State<App> {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (BuildContext context, Widget? child) {
-        return MaterialApp(
+        return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           theme:
               checkTheme.mTheme == false ? buildLightTheme() : buildDarkTheme(),
           title: 'VNotes',
-          home: const HomeScreen(),
+          routerConfig: AppNavigation.router,
         );
       },
     );

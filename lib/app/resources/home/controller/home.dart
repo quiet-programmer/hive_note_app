@@ -4,21 +4,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:note_app/app/resources/home/views/local_notes/local_notes.dart';
 import 'package:note_app/app/resources/settings/controller/settings_screen.dart';
+import 'package:note_app/app/router/route_name.dart';
 import 'package:note_app/utils/const_values.dart';
-import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/utils/greetings.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:provider/provider.dart';
 
-import '../views/local_notes/create_note_screen.dart';
-
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -29,10 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // initPlatformState();
   }
-
-  // static const String oneSignalAppId = 'e41ee34c-a2e9-4345-aa95-078b223419b3';
 
   @override
   Widget build(BuildContext context) {
@@ -42,23 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('VNotes'),
         // TODO:* adding support for localization soon.
         actions: [
-          if (Platform.isIOS)
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(MySlide(builder: (_) {
-                  return const CreateNoteScreen();
-                }));
-              },
-              icon: const Icon(
-                CupertinoIcons.add_circled,
-              ),
-            ),
           IconButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                return const SettingsScreen();
-              }));
+              context.pushNamed(RouteName.settings_screen);
             },
             icon: const Icon(
               Icons.settings,
@@ -95,9 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       : cardColor,
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context).push(MySlide(builder: (_) {
-                        return const LocalNotesScreen();
-                      }));
+                      context.pushNamed(RouteName.local_notes);
                     },
                     child: Container(
                       height: 200.h,
@@ -141,10 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       : cardColor,
                   child: InkWell(
                     onTap: () {
-                      // Navigator.of(context).push(MySlide(builder: (_) {
-                      //   return const LocalNotesScreen();
-                      // }));
-                      // startPayment();
+
                     },
                     child: Container(
                       height: 200.h,
@@ -190,51 +165,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  // Future<void> initPlatformState() async {
-  //   if (!mounted) return;
-  //
-  //   OneSignal.shared.setAppId(oneSignalAppId);
-  //
-  //   OneSignal.shared
-  //       .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-  //     logger.i(result.notification.body);
-  //     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-  //       return NotificationView(
-  //         title: result.notification.title,
-  //         body: result.notification.body,
-  //       );
-  //     }));
-  //     // push to another screen.
-  //   });
-  //
-  //   OneSignal.shared.setNotificationWillShowInForegroundHandler(
-  //           (OSNotificationReceivedEvent event) {
-  //         logger.i(event.notification.body);
-  //         // push to another screen
-  //         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-  //           return NotificationView(
-  //             title: event.notification.title,
-  //             body: event.notification.body,
-  //           );
-  //         }));
-  //
-  //         /// Display Notification, send null to not display
-  //         event.complete(null);
-  //       });
-  //
-  //   if (Platform.isIOS) {
-  //     OneSignal.shared
-  //         .setPermissionObserver((OSPermissionStateChanges changes) {
-  //       logger.i("PERMISSION STATE CHANGED: ${changes.jsonRepresentation()}");
-  //     });
-  //
-  //     OneSignal.shared
-  //         .promptUserForPushNotificationPermission()
-  //         .then((accepted) {
-  //       logger.i("Accepted permission: $accepted");
-  //     });
-  //   }
-  // }
 
 }

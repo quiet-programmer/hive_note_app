@@ -11,7 +11,7 @@ class NoteModel {
   final String? notes;
 
   @HiveField(2)
-  final String? dateTime;
+  final dynamic dateTime;
 
   NoteModel({
     this.title,

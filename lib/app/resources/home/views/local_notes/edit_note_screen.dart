@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/local_notes/read_notes_screens.dart';
+import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/theme_provider.dart';
@@ -55,34 +56,6 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   }
 
   bool? isEdited;
-
-  //TODO? thinking of a better way to check for this
-  // Future<bool> verifyIfNoteIsEdited() async {
-  //   if (_initValue['notes'].length > widget.notes.notes.toString().length) {
-  //     print('save the note');
-  //     var key = widget.noteKey;
-  //     String title = _initValue['title'];
-  //     String note = _initValue['notes'];
-  //     NoteModel noteM = NoteModel(
-  //       title: title,
-  //       notes: note,
-  //     );
-  //     storeData.put(key, noteM);
-  //     Navigator.of(context).pop();
-  //     Toast.show("Note Saved", context, duration: 3, gravity: Toast.BOTTOM);
-  //     isEdited = true;
-  //   } else {
-  //     print('text was not save');
-  //     Toast.show(
-  //       "No changes made, nothing was saved",
-  //       context,
-  //       duration: 5,
-  //     );
-  //     Navigator.of(context).pop();
-  //     isEdited = false;
-  //   }
-  //   return isEdited;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -137,15 +110,13 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                   notes: note!,
                   // dateTime: DateTime.now().toString(),
                 );
-                storeData!.put(key, noteM);
+                storeData.put(key, noteM);
                 Fluttertoast.showToast(
                   msg: 'Note Saved',
                   toastLength: Toast.LENGTH_SHORT,
                 );
-                Navigator.of(context).pop();
-                Navigator.of(context).push(MySlide(builder: (_) {
-                  return ReadNotesScreen(note: noteM, noteKey: key);
-                }));
+                Navigator.pop(context);
+                navigateTo(context, destination:ReadNotesScreen(note: noteM, noteKey: key));
               }
             },
             icon: Icon(
