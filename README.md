@@ -1,6 +1,7 @@
 ## VNotes
 
-<p>This is an old project I was working on when learning to use Hive, will start working on it full time and will be adding new features as soon as possible.</p>
+<p>This is an old project I was working on when learning to use Hive, will start working on it full time and will be adding new features as soon as possible. 
+[Quick Update: I am currently working on the Project Full Time to make sure users get the best out of the app.]</p>
 
 <p> You can download the app from <a href='https://play.google.com/store/apps/details?id=com.viewus.v_notes'>Play Store Here</a></p>
 
@@ -8,7 +9,6 @@
 
 [//]: # (<h1> If you see this error "Google Service Json Not Found"</h1>)
 <h3 style="color:red;"> Please delete pubspec.lock if you are having some issues and if you want to make a pull request, please ignore pubspec.lock Thanks</h3>
-<p>Please if you cloned the repo and have error saying, "Google Service json file not found, you need to create a firebase project and add in the Android App Project folder"</p>
 
 ## Plugin's Used
 1. <p><b> Hive (To locally store Data) </b></p> 
@@ -17,6 +17,7 @@
 4. <p><b> upgrader (To alert users when app has a new update) </b></p>
 5. <p><b> Provider (For State management) </b></p>
 6. <p><b> Shared Preferences (To Persist some values) </b></p>
+6. <p><b> Go Router </b></p>
 
 <center>
 <table>
