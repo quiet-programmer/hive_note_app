@@ -2,9 +2,9 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:note_app/app/resources/home/views/local_notes/edit_note_screen.dart';
+import 'package:note_app/app/resources/home/views/local_notes/models/note_model.dart';
 import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/utils/const_values.dart';
-import 'package:note_app/models/note_model.dart';
 import 'package:note_app/providers/hide_play_button_provider.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:flutter_tts/flutter_tts.dart';
