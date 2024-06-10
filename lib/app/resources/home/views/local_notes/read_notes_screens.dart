@@ -240,6 +240,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
   Widget build(BuildContext context) {
     final checkButtonState = Provider.of<HidePlayButtonProvider>(context);
     final checkTheme = Provider.of<ThemeProvider>(context);
+    final hiveData = HiveManager().userModelBox;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -250,7 +251,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
         centerTitle: true,
         actions: <Widget>[
           isLoading == false
-              ? IconButton(
+              ? hiveData.get(tokenKey) == null ? const SizedBox() : IconButton(
                   icon: const Icon(Icons.cloud_upload_outlined),
                   onPressed: isLoading == false
                       ? () {

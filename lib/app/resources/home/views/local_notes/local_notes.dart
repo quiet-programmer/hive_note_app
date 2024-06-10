@@ -60,8 +60,8 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
                         title: note.title,
                         notes: note.notes,
                       );
-                      deletedData!.add(noteToDelete);
-                      storeData!.delete(key);
+                      // deletedData.add(noteToDelete);
+                      storeData.delete(key);
                       Navigator.of(context).pop();
                       setState(() {});
                     },
