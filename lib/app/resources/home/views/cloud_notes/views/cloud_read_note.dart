@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:note_app/app/resources/home/views/cloud_notes/models/cloud_note_model.dart';
 import 'package:note_app/app/resources/home/views/cloud_notes/views/cloud_edit_note.dart';
+import 'package:note_app/cubits/play_button_cubit/play_button_cubit.dart';
 import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/providers/hide_play_button_provider.dart';
 import 'package:note_app/providers/theme_provider.dart';
@@ -182,7 +183,6 @@ class _CloudReadNoteState extends State<CloudReadNote> {
 
   @override
   Widget build(BuildContext context) {
-    final checkButtonState = Provider.of<HidePlayButtonProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -233,7 +233,7 @@ class _CloudReadNoteState extends State<CloudReadNote> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: checkButtonState.mPlayButton == false
+      floatingActionButton: context.watch<PlayButtonCubit>().state.canPlay
           ? FloatingActionButton(
               backgroundColor: Colors.white60,
               onPressed: () {

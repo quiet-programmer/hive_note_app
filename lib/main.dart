@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_app/app/api/api_constant.dart';
 import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/src/app.dart';
+import 'package:note_app/cubits/play_button_cubit/play_button_cubit.dart';
 import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/providers/change_view_style_provider.dart';
 import 'package:note_app/providers/hide_play_button_provider.dart';
@@ -29,11 +30,11 @@ void main() async {
         ChangeNotifierProvider.value(
           value: ChangeViewStyleProvider(),
         ),
-        ChangeNotifierProvider.value(
-          value: HidePlayButtonProvider(),
-        ),
         BlocProvider<ThemeCubit>(
           create: (context) => ThemeCubit(),
+        ),
+        BlocProvider<PlayButtonCubit>(
+          create: (context) => PlayButtonCubit(),
         ),
       ],
       child: const App(),

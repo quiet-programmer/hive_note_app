@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/trash/controller/trashed_notes.dart';
+import 'package:note_app/cubits/play_button_cubit/play_button_cubit.dart';
 import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/providers/hide_play_button_provider.dart';
 import 'package:note_app/providers/theme_provider.dart';
@@ -83,7 +84,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final checkButtonState = Provider.of<HidePlayButtonProvider>(context);
     final userModel = HiveManager().userModelBox;
     return Scaffold(
       appBar: AppBar(
@@ -134,7 +134,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       style: TextStyle(),
                     ),
                     trailing: Switch(
-                      value: context.read<ThemeCubit>().state.isDarkTheme,
+                      value: context.watch<ThemeCubit>().state.isDarkTheme,
                       onChanged: (val) {
                        context.read<ThemeCubit>().toggleTheme();
                       },
@@ -154,9 +154,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       'in the read note screen',
                     ),
                     trailing: Switch(
-                      value: checkButtonState.mPlayButton,
+                      value: context.watch<PlayButtonCubit>().state.canPlay,
                       onChanged: (val) {
-                        checkButtonState.checkButtonState();
+                        context.read<PlayButtonCubit>().togglePlayButton();
                       },
                     ),
                   ),
