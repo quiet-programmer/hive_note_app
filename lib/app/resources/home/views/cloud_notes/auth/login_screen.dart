@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/cloud_notes/models/user_model.dart';
 import 'package:note_app/app/router/route_name.dart';
+import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/request/post_request.dart';
@@ -89,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final checkTheme = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
@@ -147,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextSpan(
                       text: 'Don\'t have an Account? ',
                       style: TextStyle(
-                        color: checkTheme.mTheme == false
+                        color: context.watch<ThemeCubit>().state.isDarkTheme == false
                             ? defaultBlack
                             : defaultWhite,
                       ),
@@ -160,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Create One',
                           style: TextStyle(
-                            color: checkTheme.mTheme == false
+                            color: context.watch<ThemeCubit>().state.isDarkTheme == false
                                 ? defaultBlack
                                 : defaultWhite,
                             fontWeight: FontWeight.bold,

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/local_notes/edit_note_screen.dart';
 import 'package:note_app/app/resources/home/views/local_notes/models/note_model.dart';
+import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/request/post_request.dart';
@@ -239,7 +240,6 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
   @override
   Widget build(BuildContext context) {
     final checkButtonState = Provider.of<HidePlayButtonProvider>(context);
-    final checkTheme = Provider.of<ThemeProvider>(context);
     final hiveData = HiveManager().userModelBox;
     return Scaffold(
       appBar: AppBar(
@@ -263,7 +263,7 @@ class _ReadNotesScreenState extends State<ReadNotesScreen> {
                   width: 20.w,
                   height: 20.w,
                   child: CircularProgressIndicator(
-                    color: checkTheme.mTheme == false
+                    color: context.watch<ThemeCubit>().state.isDarkTheme == false
                         ? defaultBlack
                         : defaultWhite,
                   ),

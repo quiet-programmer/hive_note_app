@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/router/route_name.dart';
+import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/request/post_request.dart';
@@ -156,7 +157,6 @@ class _VerifyCodeState extends State<VerifyCode> {
 
   @override
   Widget build(BuildContext context) {
-    final checkTheme = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Verify Code'),
@@ -175,7 +175,7 @@ class _VerifyCodeState extends State<VerifyCode> {
               otpFieldStyle: OtpFieldStyle(
                 backgroundColor: transparent,
                 enabledBorderColor:
-                    checkTheme.mTheme == false ? defaultBlack : defaultWhite,
+                context.watch<ThemeCubit>().state.isDarkTheme == false ? defaultBlack : defaultWhite,
               ),
               outlineBorderRadius: 8,
               style: TextStyle(

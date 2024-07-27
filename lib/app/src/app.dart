@@ -1,10 +1,9 @@
 import 'package:flashy_flushbar/flashy_flushbar_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:note_app/app/resources/home/controller/home.dart';
 import 'package:note_app/app/router/route_config.dart';
+import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/utils/custom_theme.dart';
-import 'package:note_app/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatefulWidget {
@@ -17,14 +16,13 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    final checkTheme = Provider.of<ThemeProvider>(context);
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (BuildContext context, Widget? child) {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           theme:
-              checkTheme.mTheme == false ? buildLightTheme() : buildDarkTheme(),
+              context.watch<ThemeCubit>().state.isDarkTheme == false ? buildLightTheme() : buildDarkTheme(),
           title: 'VNotes',
           routerConfig: AppNavigation.router,
           builder: FlashyFlushbarProvider.init(),

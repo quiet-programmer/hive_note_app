@@ -11,6 +11,7 @@ import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/local_notes/models/note_model.dart';
 import 'package:note_app/app/resources/home/views/local_notes/read_notes_screens.dart';
 import 'package:note_app/app/router/route_name.dart';
+import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/providers/change_view_style_provider.dart';
@@ -105,7 +106,6 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
   @override
   Widget build(BuildContext context) {
     final storeData = HiveManager().noteModelBox;
-    final checkTheme = Provider.of<ThemeProvider>(context);
     final LocalNotesScreenViewStyle =
         Provider.of<ChangeViewStyleProvider>(context);
     return Scaffold(
@@ -142,7 +142,7 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
                 context.pop();
                 context.pushNamed(RouteName.create_notes_screen);
               },
-              backgroundColor: checkTheme.mTheme == true ? cardColor : backColor,
+              backgroundColor: context.watch<ThemeCubit>().state.isDarkTheme == true ? cardColor : backColor,
               tooltip: 'Add Note',
               child: const Icon(
                 Icons.add,
@@ -240,7 +240,7 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
                                                     .width,
                                                 decoration: BoxDecoration(
                                                   color:
-                                                      checkTheme.mTheme == false
+                                                  context.watch<ThemeCubit>().state.isDarkTheme == false
                                                           ? backColor
                                                           : Colors.grey[900],
                                                 ),

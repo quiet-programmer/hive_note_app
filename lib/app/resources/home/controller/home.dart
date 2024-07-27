@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:note_app/app/resources/home/views/local_notes/local_notes.dart';
 import 'package:note_app/app/resources/settings/controller/settings_screen.dart';
 import 'package:note_app/app/router/route_name.dart';
+import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/utils/greetings.dart';
@@ -30,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final checkTheme = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('VNotes'),
@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  color: checkTheme.mTheme == false
+                  color: context.watch<ThemeCubit>().state.isDarkTheme == false
                       ? backColor.withOpacity(0.7)
                       : cardColor,
                   child: InkWell(
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Icon(
                               Icons.sd_storage_outlined,
                               size: 100.r,
-                              color: checkTheme.mTheme == false
+                              color: context.watch<ThemeCubit>().state.isDarkTheme == false
                                   ? defaultBlack
                                   : defaultWhite,
                             ),
@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  color: checkTheme.mTheme == false
+                  color: context.watch<ThemeCubit>().state.isDarkTheme == false
                       ? backColor.withOpacity(0.7)
                       : cardColor,
                   child: InkWell(
@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Icon(
                               Icons.cloud_queue_outlined,
                               size: 100.r,
-                              color: checkTheme.mTheme == false
+                              color: context.watch<ThemeCubit>().state.isDarkTheme == false
                                   ? defaultBlack
                                   : defaultWhite,
                             ),

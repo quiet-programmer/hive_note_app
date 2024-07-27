@@ -10,6 +10,7 @@ import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/cloud_notes/models/cloud_note_model.dart';
 import 'package:note_app/app/resources/home/views/cloud_notes/views/cloud_read_note.dart';
 import 'package:note_app/app/router/route_name.dart';
+import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/request/get_request.dart';
@@ -180,7 +181,6 @@ class _CloudNotesScreenState extends State<CloudNotesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final checkTheme = Provider.of<ThemeProvider>(context);
     final cloudNoteModel = HiveManager().cloudNoteModelBox;
     return Scaffold(
       appBar: AppBar(
@@ -207,7 +207,7 @@ class _CloudNotesScreenState extends State<CloudNotesScreen> {
                 context.pushNamed(RouteName.cloud_create_notes_screen);
               },
               backgroundColor:
-                  checkTheme.mTheme == true ? cardColor : backColor,
+              context.watch<ThemeCubit>().state.isDarkTheme == true ? cardColor : backColor,
               tooltip: 'Add Note',
               child: const Icon(
                 Icons.add,
@@ -264,7 +264,7 @@ class _CloudNotesScreenState extends State<CloudNotesScreen> {
                                     padding: const EdgeInsets.all(8),
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
-                                      color: checkTheme.mTheme == false
+                                      color: context.watch<ThemeCubit>().state.isDarkTheme == false
                                           ? backColor
                                           : Colors.grey[900],
                                     ),

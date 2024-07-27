@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/local_notes/local_notes.dart';
 import 'package:note_app/app/resources/home/views/local_notes/models/note_model.dart';
+import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/utils/slide_transition.dart';
@@ -116,7 +117,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final checkTheme = Provider.of<ThemeProvider>(context);
     var height = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: checkIfNoteIsNotEmptyWhenGoingBack,
@@ -160,14 +160,14 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               },
               icon: Icon(
                 Icons.done,
-                color: checkTheme.mTheme == false
+                color: context.watch<ThemeCubit>().state.isDarkTheme == false
                     ? Colors.black45
                     : Colors.white38,
               ),
               label: Text(
                 'Save',
                 style: TextStyle(
-                  color: checkTheme.mTheme == false
+                  color: context.watch<ThemeCubit>().state.isDarkTheme == false
                       ? Colors.black45
                       : Colors.white38,
                 ),

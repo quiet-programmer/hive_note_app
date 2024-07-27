@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/utils/money_formatter.dart';
@@ -95,7 +97,8 @@ class MNewTextField extends StatefulWidget {
 class _MNewTextFieldState extends State<MNewTextField> {
   @override
   Widget build(BuildContext context) {
-    final checkTheme = Provider.of<ThemeProvider>(context);
+    return BlocBuilder<ThemeCubit, ThemeState>(
+  builder: (context, state) {
     return Column(
       children: [
         Align(
@@ -108,7 +111,7 @@ class _MNewTextFieldState extends State<MNewTextField> {
                       '${widget.sideText}',
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: checkTheme.mTheme == false
+                        color: state.isDarkTheme == false
                             ? defaultBlack
                             : defaultWhite,
                       ),
@@ -169,13 +172,13 @@ class _MNewTextFieldState extends State<MNewTextField> {
                     icon: widget.offText == true
                         ? FaIcon(
                             FontAwesomeIcons.eye,
-                            color: checkTheme.mTheme == false
+                            color: state.isDarkTheme == false
                                 ? defaultBlack
                                 : defaultWhite,
                           )
                         : FaIcon(
                             FontAwesomeIcons.eyeSlash,
-                            color: checkTheme.mTheme == false
+                            color: state.isDarkTheme == false
                                 ? defaultBlack
                                 : defaultWhite,
                           ),
@@ -190,13 +193,13 @@ class _MNewTextFieldState extends State<MNewTextField> {
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: checkTheme.mTheme == false ? defaultBlack : defaultWhite,
+                color: state.isDarkTheme == false ? defaultBlack : defaultWhite,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: checkTheme.mTheme == false ? defaultBlack : defaultWhite,
+                color: state.isDarkTheme == false ? defaultBlack : defaultWhite,
               ),
             ),
             errorBorder: OutlineInputBorder(
@@ -214,18 +217,18 @@ class _MNewTextFieldState extends State<MNewTextField> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: checkTheme.mTheme == false ? defaultBlack : defaultWhite,
+                color: state.isDarkTheme == false ? defaultBlack : defaultWhite,
               ),
             ),
             hintText: '${widget.fieldName}',
             hintStyle: TextStyle(
-              color: checkTheme.mTheme == false ? defaultBlack : defaultWhite,
+              color: state.isDarkTheme == false ? defaultBlack : defaultWhite,
             ),
           ),
           textAlign: widget.textAlign ?? TextAlign.left,
           style: TextStyle(
             fontSize: 14.sp,
-            color: checkTheme.mTheme == false ? defaultBlack : defaultWhite,
+            color: state.isDarkTheme == false ? defaultBlack : defaultWhite,
           ),
         ),
         widget.removeBottomPadding == true
@@ -235,5 +238,7 @@ class _MNewTextFieldState extends State<MNewTextField> {
               ),
       ],
     );
+  },
+);
   }
 }

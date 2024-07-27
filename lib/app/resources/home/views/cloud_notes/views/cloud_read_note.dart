@@ -183,7 +183,6 @@ class _CloudReadNoteState extends State<CloudReadNote> {
   @override
   Widget build(BuildContext context) {
     final checkButtonState = Provider.of<HidePlayButtonProvider>(context);
-    final checkTheme = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
