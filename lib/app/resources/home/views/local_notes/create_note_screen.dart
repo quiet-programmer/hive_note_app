@@ -3,13 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hive/hive.dart';
 import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/local_notes/local_notes.dart';
 import 'package:note_app/app/resources/home/views/local_notes/models/note_model.dart';
 import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
-import 'package:note_app/utils/const_values.dart';
-import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/utils/slide_transition.dart';
 import 'package:provider/provider.dart';
 

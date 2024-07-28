@@ -4,10 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
-import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:note_app/utils/money_formatter.dart';
-import 'package:provider/provider.dart';
 
 class MNewTextField extends StatefulWidget {
   final double? height;

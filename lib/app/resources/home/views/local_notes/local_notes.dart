@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
@@ -11,12 +12,10 @@ import 'package:note_app/app/helpers/hive_manager.dart';
 import 'package:note_app/app/resources/home/views/local_notes/models/note_model.dart';
 import 'package:note_app/app/resources/home/views/local_notes/read_notes_screens.dart';
 import 'package:note_app/app/router/route_name.dart';
+import 'package:note_app/cubits/note_style_cubit/note_style_cubit.dart';
 import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/m_functions/navigate_to.dart';
 import 'package:note_app/utils/const_values.dart';
-import 'package:note_app/providers/change_view_style_provider.dart';
-import 'package:note_app/providers/theme_provider.dart';
-import 'package:note_app/utils/slide_transition.dart';
 import 'package:provider/provider.dart';
 
 import 'create_note_screen.dart';
@@ -106,8 +105,8 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
   @override
   Widget build(BuildContext context) {
     final storeData = HiveManager().noteModelBox;
-    final LocalNotesScreenViewStyle =
-        Provider.of<ChangeViewStyleProvider>(context);
+    return BlocBuilder<NoteStyleCubit, NoteStyleState>(
+  builder: (context, state) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notes'),
@@ -125,10 +124,10 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
             ),
           IconButton(
             onPressed: () {
-              LocalNotesScreenViewStyle.checkButtonState();
+              context.read<NoteStyleCubit>().toggleNoteStyle();
             },
             icon: Icon(
-              LocalNotesScreenViewStyle.mChangeViewStyle == false
+              state.viewStyle == false
                   ? Icons.list
                   : Icons.grid_view_outlined,
             ),
@@ -179,7 +178,7 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
                   valueListenable: storeData!.listenable(),
                   builder: (context, Box<NoteModel> notes, _) {
                     List<int>? keys = notes.keys.cast<int>().toList();
-                    return LocalNotesScreenViewStyle.mChangeViewStyle == false
+                    return state.viewStyle == false
                         ? MasonryGridView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             primary: false,
@@ -381,5 +380,7 @@ class _LocalNotesScreenState extends State<LocalNotesScreen> {
               ),
             ),
     );
+  },
+);
   }
 }

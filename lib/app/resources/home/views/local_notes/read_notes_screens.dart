@@ -8,12 +8,9 @@ import 'package:note_app/app/resources/home/views/local_notes/models/note_model.
 import 'package:note_app/cubits/play_button_cubit/play_button_cubit.dart';
 import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/m_functions/navigate_to.dart';
-import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/request/post_request.dart';
 import 'package:note_app/utils/const_values.dart';
-import 'package:note_app/providers/hide_play_button_provider.dart';
 import 'package:note_app/utils/message_dialog.dart';
-import 'package:note_app/utils/slide_transition.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';

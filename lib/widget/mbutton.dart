@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
-import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/utils/const_values.dart';
-import 'package:provider/provider.dart';
 
 class MButton extends StatefulWidget {
   final String? title;

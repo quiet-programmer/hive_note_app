@@ -5,14 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:note_app/app/resources/home/views/local_notes/local_notes.dart';
-import 'package:note_app/app/resources/settings/controller/settings_screen.dart';
 import 'package:note_app/app/router/route_name.dart';
 import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/utils/const_values.dart';
-import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/utils/greetings.dart';
-import 'package:note_app/utils/slide_transition.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {

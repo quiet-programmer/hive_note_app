@@ -5,7 +5,6 @@ import 'package:note_app/app/resources/home/views/cloud_notes/models/cloud_note_
 import 'package:note_app/app/resources/home/views/cloud_notes/views/cloud_read_note.dart';
 import 'package:note_app/cubits/theme_cubit/theme_cubit.dart';
 import 'package:note_app/m_functions/navigate_to.dart';
-import 'package:note_app/providers/theme_provider.dart';
 import 'package:note_app/request/post_request.dart';
 import 'package:note_app/utils/const_values.dart';
 import 'package:provider/provider.dart';
