@@ -14,8 +14,8 @@
 1. <p><b> Hive (To locally store Data) </b></p> 
 2. <p><b> Toast (To display useful message) </b></p>
 3. <p><b> Path Provider </b></p>
-4. <p><b> upgrader (To alert users when app has a new update) </b></p>
-5. <p><b> Provider (For State management) </b></p>
+4. <p><b> Upgrader (To alert users when app has a new update) </b></p>
+5. <p><b> Bloc (Cubit) (For State management) </b></p>
 6. <p><b> Shared Preferences (To Persist some values) </b></p>
 6. <p><b> Go Router </b></p>
 
